@@ -4,107 +4,141 @@ import { useTranslations } from '@/utils/i18n';
 import config from '@/data/config.json';
 import downloads from '@/data/downloads.json';
 
-interface Props {
-  lang: Locale;
-}
-
+interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const { company, social } = config;
+const { company, social, nav } = config;
 
-const companyName     = lang === 'tr' ? company.nameTR : company.name;
-const featuredReport  = downloads.documents.find(d => d.featured);
-const reportTitle     = featuredReport
+const companyName    = lang === 'tr' ? company.nameTR : company.name;
+const featuredReport = downloads.documents.find(d => d.featured);
+const reportTitle    = featuredReport
   ? (lang === 'tr' ? featuredReport.titleTR : featuredReport.titleEN)
   : '';
 
 const socialLinks = [
-  { href: social.linkedin,  label: 'LinkedIn', icon: 'linkedin'  },
-  { href: social.twitter,   label: 'Twitter',  icon: 'twitter'   },
-  { href: social.instagram, label: 'Instagram',icon: 'instagram' },
+  { href: social.linkedin,  label: 'LinkedIn',  icon: 'linkedin'  },
+  { href: social.twitter,   label: 'Twitter',   icon: 'twitter'   },
+  { href: social.instagram, label: 'Instagram', icon: 'instagram' },
 ].filter(s => s.href);
+
+// Static label map — avoids re-importing i18n JSON for individual keys
+const NAV_LABELS: Record<string, { tr: string; en: string }> = {
+  about:          { tr: 'Hakkımızda',         en: 'About'                 },
+  message:        { tr: 'Mesajlar',            en: 'Messages'              },
+  kpi:            { tr: 'Temel Göstergeler',   en: 'Key Highlights'        },
+  financial:      { tr: 'Finansal Performans', en: 'Financial Performance' },
+  operational:    { tr: 'Operasyonel Perf.',   en: 'Operational'           },
+  governance:     { tr: 'Kurumsal Yönetim',    en: 'Corporate Governance'  },
+  sustainability: { tr: 'Sürdürülebilirlik',   en: 'Sustainability'        },
+  people:         { tr: 'İnsan Kaynakları',    en: 'People'                },
+  downloads:      { tr: 'İndirmeler',          en: 'Downloads'             },
+};
+
+// Grouped nav — filtered to only include IDs present in config.nav.links
+const ALL_GROUPS = [
+  { labelTR: 'Şirket',     labelEN: 'Company',     ids: ['about', 'message']                       },
+  { labelTR: 'Performans', labelEN: 'Performance',  ids: ['kpi', 'financial', 'operational']        },
+  { labelTR: 'Kurumsal',   labelEN: 'Governance',   ids: ['governance', 'sustainability', 'people'] },
+  { labelTR: 'Belgeler',   labelEN: 'Documents',    ids: ['downloads']                              },
+];
+const activeIds = new Set(nav.links);
+const navGroups = ALL_GROUPS
+  .map(g => ({
+    label: lang === 'tr' ? g.labelTR : g.labelEN,
+    ids:   g.ids.filter(id => activeIds.has(id)),
+  }))
+  .filter(g => g.ids.length > 0);
+
+const navLabel = (id: string) =>
+  lang === 'tr' ? (NAV_LABELS[id]?.tr ?? id) : (NAV_LABELS[id]?.en ?? id);
 ---
 
-<footer class="border-t border-gray-100 bg-[var(--brand-surface)]">
-  <div class="mx-auto max-w-screen-xl px-6 py-14">
+<footer style="background-color: color-mix(in srgb, var(--brand-primary) 96%, black);">
+  <div class="mx-auto max-w-screen-xl px-6 py-16">
 
-    <!-- Top row: brand + PDF download -->
-    <div class="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+    <!-- ── Main grid: brand column + nav group columns ── -->
+    <div class="grid grid-cols-2 gap-x-8 gap-y-12 lg:grid-cols-[2fr_repeat(4,1fr)]">
 
-      <!-- Brand block -->
-      <div class="max-w-sm">
-        <div class="flex items-center gap-2">
+      <!-- Brand column — spans both mobile columns -->
+      <div class="col-span-2 lg:col-span-1">
+
+        <!-- Logo + name -->
+        <div class="flex items-center gap-2.5">
           <img
             src={company.logo}
             alt={companyName}
             width="28"
             height="28"
-            class="h-7 w-auto"
+            class="h-7 w-auto brightness-0 invert"
             onerror="this.style.display='none'"
           />
-          <span class="font-heading text-base font-semibold" style="color: var(--brand-primary);">
+          <span class="font-heading text-base font-semibold text-white">
             {companyName}
           </span>
         </div>
-        <p class="mt-3 text-sm leading-relaxed text-gray-500">
+
+        <!-- Year label -->
+        <p class="mt-3 text-sm text-white/50">
           {company.reportYear} {lang === 'tr' ? 'Faaliyet Raporu' : 'Annual Report'}
         </p>
-        <address class="mt-4 not-italic text-sm leading-relaxed text-gray-500">
+
+        <!-- Address + phone -->
+        <address class="mt-4 not-italic text-sm leading-relaxed text-white/50">
           {company.address}
           <br />
-          <a href={`tel:${company.phone}`} class="hover:text-[var(--brand-primary)] transition-colors">
+          <a
+            href={`tel:${company.phone}`}
+            class="transition-colors duration-150 hover:text-white"
+          >
             {company.phone}
           </a>
         </address>
-      </div>
 
-      <!-- PDF download CTA -->
-      {featuredReport && (
-        <div class="flex flex-col items-start gap-3 sm:items-end">
-          <p class="text-xs font-medium uppercase tracking-widest text-gray-400">
-            {t('downloads.sectionTitle')}
-          </p>
+        <!-- Featured PDF download (inverted: white bg, primary text) -->
+        {featuredReport && (
           <a
             href={featuredReport.file}
             download
-            class="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-primary)] focus-visible:ring-offset-2"
-            style="background-color: var(--brand-primary);"
+            class="mt-6 inline-flex items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold shadow-sm transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-primary)]"
+            style="color: var(--brand-primary);"
           >
-            <!-- Download icon -->
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M8 2v8M5 7l3 3 3-3"/>
-              <path d="M2 12h12"/>
+            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M8 2v8M5 7l3 3 3-3"/><path d="M2 12h12"/>
             </svg>
             {reportTitle}
-            <span class="text-xs font-normal opacity-80">
-              ({featuredReport.fileSizeMB} MB)
-            </span>
+            <span class="text-xs font-normal opacity-60">({featuredReport.fileSizeMB} MB)</span>
           </a>
+        )}
+      </div>
+
+      <!-- Nav group columns -->
+      {navGroups.map(group => (
+        <div>
+          <p class="mb-5 text-[10px] font-bold uppercase tracking-[0.22em] text-white/35">
+            {group.label}
+          </p>
+          <ul class="flex flex-col gap-3.5">
+            {group.ids.map(id => (
+              <li>
+                <a
+                  href={`#${id}`}
+                  class="text-sm text-white/60 transition-colors duration-150 hover:text-white"
+                >
+                  {navLabel(id)}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
-      )}
+      ))}
+
     </div>
 
-    <!-- Divider -->
-    <div class="my-10 h-px bg-gray-200"></div>
+    <!-- ── Divider ── -->
+    <div class="my-10 h-px bg-white/10"></div>
 
-    <!-- Bottom row: links + social + copyright -->
+    <!-- ── Bottom row: social icons left · disclaimer + copyright right ── -->
     <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-
-      <!-- Useful links -->
-      <nav aria-label={lang === 'tr' ? 'Alt menü' : 'Footer navigation'}>
-        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-500">
-          <li>
-            <a href={company.websiteUrl} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--brand-primary)] transition-colors">
-              {lang === 'tr' ? 'Kurumsal Web Sitesi' : 'Corporate Website'}
-            </a>
-          </li>
-          <li>
-            <a href={company.investorRelationsUrl} target="_blank" rel="noopener noreferrer" class="hover:text-[var(--brand-primary)] transition-colors">
-              {lang === 'tr' ? 'Yatırımcı İlişkileri' : 'Investor Relations'}
-            </a>
-          </li>
-        </ul>
-      </nav>
 
       <!-- Social links -->
       {socialLinks.length > 0 && (
@@ -115,7 +149,7 @@ const socialLinks = [
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              class="flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 text-gray-500 transition-colors hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)]"
+              class="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white/50 transition-colors duration-150 hover:border-white hover:text-white"
             >
               {icon === 'linkedin' && (
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -140,14 +174,13 @@ const socialLinks = [
           ))}
         </div>
       )}
-    </div>
 
-    <!-- Disclaimer + copyright -->
-    <div class="mt-8 text-xs leading-relaxed text-gray-400">
-      <p>{t('footer.disclaimer')}</p>
-      <p class="mt-1">
-        © {company.reportYear} {companyName}. {t('footer.allRights')}
-      </p>
+      <!-- Disclaimer + copyright -->
+      <div class="text-xs leading-relaxed text-white/35">
+        <p>{t('footer.disclaimer')}</p>
+        <p class="mt-1">© {company.reportYear} {companyName}. {t('footer.allRights')}</p>
+      </div>
+
     </div>
   </div>
 </footer>

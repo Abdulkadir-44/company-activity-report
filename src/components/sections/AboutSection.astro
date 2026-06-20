@@ -337,12 +337,13 @@ const photoPath    = 'public/assets/about-photo.jpg';
 
     <!-- ── Sticky card stack ── -->
     <!--
-      pb-[60vh]: The math demands it.
+      pb-[30vh]: Half of the original 60vh.
       3 card transitions × ~380px per transition ≈ 1140px of scroll needed.
       Without pb the section is only 1520px tall; at ~900px viewport that gives
-      620px scrollable — not enough. 60vh adds the required travel distance.
+      620px scrollable — not enough. 30vh reduces the excess tail while still
+      providing enough travel distance on most viewports.
     -->
-    <div class="pb-[60vh]">
+    <div class="pb-[30vh]">
       {about.businessAreas.slice(0, 4).map((area, i) => {
         const label  = lang === 'tr' ? area.labelTR : area.labelEN;
         const desc   = lang === 'tr' ? area.descTR  : area.descEN;
