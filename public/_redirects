@@ -1,0 +1,8 @@
+# Netlify redirects
+# Docs: https://docs.netlify.com/routing/redirects/
+
+# Root → Turkish (default locale) — proper 301 replaces the meta-refresh in index.astro
+/    /tr    301
+
+# Catch-all: send unknown paths to the branded 404 page
+/*   /404   404

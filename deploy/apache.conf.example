@@ -1,0 +1,53 @@
+# Apache VirtualHost configuration example for the Annual Report static site
+# Replace YOUR_DOMAIN with the client's actual domain.
+# Enable required modules: mod_rewrite, mod_deflate, mod_headers, mod_ssl
+#   sudo a2enmod rewrite deflate headers ssl
+
+<VirtualHost *:80>
+    ServerName  YOUR_DOMAIN
+    ServerAlias www.YOUR_DOMAIN
+    # Redirect all HTTP to HTTPS
+    Redirect permanent / https://YOUR_DOMAIN/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName  YOUR_DOMAIN
+    ServerAlias www.YOUR_DOMAIN
+
+    DocumentRoot /var/www/annual-report
+
+    # --- TLS (obtain with: certbot --apache -d YOUR_DOMAIN) ---
+    SSLEngine on
+    SSLCertificateFile    /etc/letsencrypt/live/YOUR_DOMAIN/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/YOUR_DOMAIN/privkey.pem
+
+    <Directory /var/www/annual-report>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    # --- Root redirect: / → /tr/ ---
+    RedirectMatch permanent ^/$ /tr/
+
+    # --- Custom 404 ---
+    ErrorDocument 404 /404.html
+
+    # --- Security headers ---
+    Header always set X-Frame-Options        "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy        "strict-origin-when-cross-origin"
+
+    # --- Gzip compression ---
+    <IfModule mod_deflate.c>
+        AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+    </IfModule>
+
+    # --- Cache headers ---
+    <FilesMatch "\.(html)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+    <FilesMatch "\.(js|css|woff2|woff|ttf|svg|ico|png|jpg|webp)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</VirtualHost>

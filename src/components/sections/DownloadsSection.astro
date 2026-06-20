@@ -1,0 +1,52 @@
+---
+import type { Locale } from '@/utils/i18n';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import DownloadItem from '@/components/ui/DownloadItem.astro';
+import downloads from '@/data/downloads.json';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+
+const eyebrow = lang === 'tr' ? 'İndirmeler'                   : 'Downloads';
+const title   = lang === 'tr' ? 'Raporlar & Belgeler'          : 'Reports & Documents';
+const subtitle= lang === 'tr'
+  ? 'Tüm raporlarımıza ve kurumsal belgelerimize buradan ulaşabilirsiniz.'
+  : 'Access all our reports and corporate documents in one place.';
+
+const featured = downloads.documents.filter(d => d.featured);
+const others   = downloads.documents.filter(d => !d.featured);
+---
+
+<div>
+  <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
+
+  <!-- Featured document (full width, inverted style) -->
+  {featured.map(doc => (
+    <div class="mb-6">
+      <DownloadItem
+        title={lang === 'tr' ? doc.titleTR : doc.titleEN}
+        description={lang === 'tr' ? doc.descriptionTR : doc.descriptionEN}
+        file={doc.file}
+        fileSizeMB={doc.fileSizeMB}
+        format={doc.format}
+        featured={true}
+        lang={lang}
+      />
+    </div>
+  ))}
+
+  <!-- Other documents -->
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {others.map(doc => (
+      <DownloadItem
+        title={lang === 'tr' ? doc.titleTR : doc.titleEN}
+        description={lang === 'tr' ? doc.descriptionTR : doc.descriptionEN}
+        file={doc.file}
+        fileSizeMB={doc.fileSizeMB}
+        format={doc.format}
+        featured={false}
+        lang={lang}
+      />
+    ))}
+  </div>
+</div>

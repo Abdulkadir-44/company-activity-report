@@ -1,0 +1,48 @@
+{
+  "documents": [
+    {
+      "id": "annual-report",
+      "titleTR": "2024 Faaliyet Raporu",
+      "titleEN": "2024 Annual Report",
+      "descriptionTR": "Tam faaliyet raporu — finansal tablolar, yönetim açıklamaları ve ESG verileri dahil.",
+      "descriptionEN": "Full annual report — including financial statements, management commentary, and ESG data.",
+      "file": "/assets/acme-annual-report-2024.pdf",
+      "fileSizeMB": 12.4,
+      "format": "PDF",
+      "featured": true
+    },
+    {
+      "id": "auditor-report",
+      "titleTR": "Bağımsız Denetçi Raporu",
+      "titleEN": "Independent Auditor's Report",
+      "descriptionTR": "PwC tarafından hazırlanan bağımsız denetçi raporu.",
+      "descriptionEN": "Independent auditor's report prepared by PwC.",
+      "file": "/assets/acme-auditor-report-2024.pdf",
+      "fileSizeMB": 2.1,
+      "format": "PDF",
+      "featured": false
+    },
+    {
+      "id": "sustainability-report",
+      "titleTR": "Sürdürülebilirlik Raporu",
+      "titleEN": "Sustainability Report",
+      "descriptionTR": "GRI standartlarına uygun kapsamlı sürdürülebilirlik raporu.",
+      "descriptionEN": "Comprehensive sustainability report prepared in accordance with GRI standards.",
+      "file": "/assets/acme-sustainability-2024.pdf",
+      "fileSizeMB": 5.8,
+      "format": "PDF",
+      "featured": false
+    },
+    {
+      "id": "governance-report",
+      "titleTR": "Kurumsal Yönetim Uyum Raporu",
+      "titleEN": "Corporate Governance Compliance Report",
+      "descriptionTR": "Kurumsal yönetim ilkelerine uyum raporu.",
+      "descriptionEN": "Corporate governance principles compliance report.",
+      "file": "/assets/acme-governance-2024.pdf",
+      "fileSizeMB": 1.6,
+      "format": "PDF",
+      "featured": false
+    }
+  ]
+}

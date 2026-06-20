@@ -1,0 +1,63 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionWrapper from '@/components/ui/SectionWrapper.astro';
+import HeroSection from '@/components/sections/HeroSection.astro';
+import AboutSection from '@/components/sections/AboutSection.astro';
+import MessageSection from '@/components/sections/MessageSection.astro';
+import KpiSection from '@/components/sections/KpiSection.astro';
+import FinancialSection from '@/components/sections/FinancialSection.astro';
+import OperationalSection from '@/components/sections/OperationalSection.astro';
+import GovernanceSection from '@/components/sections/GovernanceSection.astro';
+import SustainabilitySection from '@/components/sections/SustainabilitySection.astro';
+import PeopleSection from '@/components/sections/PeopleSection.astro';
+import DownloadsSection from '@/components/sections/DownloadsSection.astro';
+import config from '@/data/config.json';
+
+const { company, seo } = config;
+const lang = 'en' as const;
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${company.name} ${company.reportYear} Annual Report`}
+  description={seo.description}
+  canonicalUrl={`${Astro.site ?? ''}en`}
+>
+  <HeroSection lang={lang} />
+
+  <SectionWrapper id="about" reveal="fade" alt>
+    <AboutSection lang={lang} />
+  </SectionWrapper>
+
+  <SectionWrapper id="message" reveal="fade">
+    <MessageSection lang={lang} />
+  </SectionWrapper>
+
+  <SectionWrapper id="kpi" reveal="stagger" alt>
+    <KpiSection lang={lang} />
+  </SectionWrapper>
+
+  <SectionWrapper id="financial" reveal="fade">
+    <FinancialSection lang={lang} />
+  </SectionWrapper>
+
+  <SectionWrapper id="operational" reveal="fade" alt>
+    <OperationalSection lang={lang} />
+  </SectionWrapper>
+
+  <SectionWrapper id="governance" reveal="stagger">
+    <GovernanceSection lang={lang} />
+  </SectionWrapper>
+
+  <SectionWrapper id="sustainability" reveal="fade" alt>
+    <SustainabilitySection lang={lang} />
+  </SectionWrapper>
+
+  <SectionWrapper id="people" reveal="stagger">
+    <PeopleSection lang={lang} />
+  </SectionWrapper>
+
+  <SectionWrapper id="downloads" reveal="fade" alt>
+    <DownloadsSection lang={lang} />
+  </SectionWrapper>
+</BaseLayout>

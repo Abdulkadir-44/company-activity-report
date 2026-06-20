@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "about":          "About",
+    "message":        "Messages",
+    "kpi":            "Key Highlights",
+    "financial":      "Financial Performance",
+    "operational":    "Operational Performance",
+    "governance":     "Corporate Governance",
+    "sustainability": "Sustainability",
+    "people":         "People",
+    "downloads":      "Downloads"
+  },
+  "hero": {
+    "annualReport":   "Annual Report",
+    "exploreReport":  "Explore Report",
+    "downloadPdf":    "Download PDF",
+    "scrollDown":     "Scroll Down"
+  },
+  "kpi": {
+    "sectionTitle":   "Key Highlights",
+    "yoyIncrease":    "increase",
+    "yoyDecrease":    "decrease",
+    "vsLastYear":     "vs last year"
+  },
+  "financial": {
+    "sectionTitle":   "Financial Performance",
+    "year":           "Year",
+    "change":         "Change"
+  },
+  "operational": {
+    "sectionTitle":   "Operational Performance",
+    "stores":         "Stores",
+    "newOpenings":    "new openings"
+  },
+  "governance": {
+    "sectionTitle":   "Corporate Governance",
+    "independent":    "Independent Member",
+    "committees":     "Committees",
+    "readBio":        "Read Biography",
+    "close":          "Close"
+  },
+  "sustainability": {
+    "sectionTitle":   "Sustainability",
+    "target":         "Target",
+    "actual":         "Actual",
+    "targetYear":     "Target Year"
+  },
+  "people": {
+    "sectionTitle":   "People & Culture",
+    "employees":      "Employees",
+    "female":         "Female",
+    "male":           "Male",
+    "avgAge":         "Avg. Age",
+    "avgTenure":      "Avg. Tenure (Years)",
+    "trainingHours":  "Training Hours",
+    "perEmployee":    "per employee"
+  },
+  "downloads": {
+    "sectionTitle":   "Reports & Documents",
+    "download":       "Download",
+    "fileSize":       "File Size",
+    "format":         "Format"
+  },
+  "footer": {
+    "disclaimer":     "This site is for informational purposes only. All figures presented have been independently audited.",
+    "allRights":      "All rights reserved."
+  },
+  "language": {
+    "switchTo":       "TR"
+  },
+  "common": {
+    "learnMore":      "Learn More",
+    "viewAll":        "View All",
+    "previous":       "Previous",
+    "next":           "Next"
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "environmental": [
+    {
+      "id": "carbon",
+      "labelTR": "Karbon Salınımı (Kapsam 1+2)",
+      "labelEN": "Carbon Emissions (Scope 1+2)",
+      "value": 28400,
+      "unit": "tCO₂e",
+      "target": 25000,
+      "targetYear": 2025,
+      "yoyChange": -8,
+      "icon": "leaf"
+    },
+    {
+      "id": "energy",
+      "labelTR": "Yenilenebilir Enerji Payı",
+      "labelEN": "Renewable Energy Share",
+      "value": 47,
+      "unit": "%",
+      "target": 60,
+      "targetYear": 2026,
+      "yoyChange": 12,
+      "icon": "sun"
+    },
+    {
+      "id": "water",
+      "labelTR": "Su Tüketimi",
+      "labelEN": "Water Consumption",
+      "value": 142000,
+      "unit": "m³",
+      "target": 130000,
+      "targetYear": 2025,
+      "yoyChange": -5,
+      "icon": "droplet"
+    },
+    {
+      "id": "packaging",
+      "labelTR": "Geri Dönüştürülmüş Ambalaj",
+      "labelEN": "Recycled Packaging",
+      "value": 73,
+      "unit": "%",
+      "target": 90,
+      "targetYear": 2026,
+      "yoyChange": 11,
+      "icon": "recycle"
+    }
+  ],
+  "social": [
+    {
+      "id": "community",
+      "labelTR": "Toplumsal Yatırım",
+      "labelEN": "Community Investment",
+      "value": 24500000,
+      "currency": "TRY",
+      "unit": null,
+      "captionTR": "Eğitim ve çocuk gelişimi projelerine yapılan toplumsal yatırım.",
+      "captionEN": "Community investment in education and child development projects."
+    },
+    {
+      "id": "beneficiaries",
+      "labelTR": "Faydalanan Çocuk",
+      "labelEN": "Children Benefited",
+      "value": 85000,
+      "unit": null,
+      "captionTR": "Sosyal sorumluluk projeleri kapsamında faydalanan çocuk sayısı.",
+      "captionEN": "Children reached through social responsibility initiatives."
+    }
+  ],
+  "projects": [
+    {
+      "id": "nursery",
+      "titleTR": "Kreş Destek Programı",
+      "titleEN": "Nursery Support Programme",
+      "descriptionTR": "Çalışanlarımızın çocukları için anlaşmalı kreşlerde indirimli hizmet.",
+      "descriptionEN": "Subsidised childcare for employees' children at partner nurseries.",
+      "photo": "/assets/photos/esg-nursery.jpg"
+    },
+    {
+      "id": "tree",
+      "titleTR": "Her Bebek İçin Bir Ağaç",
+      "titleEN": "One Tree Per Baby",
+      "descriptionTR": "Her yeni doğan bebek için bir ağaç dikiyoruz. 2024'te 120.000 ağaç dikildi.",
+      "descriptionEN": "We plant a tree for every newborn registered on our platform. 120,000 trees planted in 2024.",
+      "photo": "/assets/photos/esg-tree.jpg"
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+---
+import type { Locale } from '@/utils/i18n';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import ProgressBar from '@/components/ui/ProgressBar.astro';
+import hr from '@/data/hr.json';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+
+const eyebrow = lang === 'tr' ? 'İnsan Kaynakları'      : 'People & Culture';
+const title   = lang === 'tr' ? 'Güçlü Bir Ekiple Büyüyoruz' : 'Growing with a Strong Team';
+const subtitle= lang === 'tr'
+  ? '12.840 çalışanımızla yetenek gelişimine, çeşitlilik & kapsayıcılığa yatırım yapmaya devam ediyoruz.'
+  : 'With 12,840 employees, we continue to invest in talent development, diversity, and inclusion.';
+
+const loc = lang === 'tr' ? 'tr-TR' : 'en-US';
+
+const bigStats = [
+  {
+    value: hr.headcount.total.toLocaleString(loc),
+    label: lang === 'tr' ? 'Toplam Çalışan'      : 'Total Employees',
+    sub:   `+${hr.headcount.yoyChange.toFixed(1)}% YoY`,
+  },
+  {
+    value: `%${hr.demographics.genderRatio.female}`,
+    label: lang === 'tr' ? 'Kadın Çalışan Oranı' : 'Female Employee Ratio',
+    sub:   lang === 'tr' ? 'Çeşitlilik & Kapsayıcılık' : 'Diversity & Inclusion',
+  },
+  {
+    value: hr.demographics.averageAge.toLocaleString(loc, { maximumFractionDigits: 1 }),
+    label: lang === 'tr' ? 'Ortalama Yaş'        : 'Average Age',
+    sub:   lang === 'tr' ? 'yıl'                 : 'years',
+  },
+  {
+    value: hr.demographics.averageTenureYears.toLocaleString(loc, { maximumFractionDigits: 1 }),
+    label: lang === 'tr' ? 'Ortalama Kıdem'       : 'Average Tenure',
+    sub:   lang === 'tr' ? 'yıl'                  : 'years',
+  },
+];
+
+const trainingLabel   = lang === 'tr' ? 'Eğitim & Gelişim'       : 'Learning & Development';
+const wellbeingLabel  = lang === 'tr' ? 'Çalışan Deneyimi'       : 'Employee Experience';
+const programsLabel   = lang === 'tr' ? 'Programlar'             : 'Programmes';
+const participLabel   = lang === 'tr' ? 'katılımcı'              : 'participants';
+const ageGroupsLabel  = lang === 'tr' ? 'Yaş Dağılımı'           : 'Age Distribution';
+---
+
+<div>
+  <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
+
+  <!-- Big stat cards -->
+  <div class="mb-12 grid grid-cols-2 gap-5 lg:grid-cols-4">
+    {bigStats.map(s => (
+      <div class="rounded-2xl bg-white p-6 text-center ring-1 ring-gray-100">
+        <p class="font-heading text-4xl font-semibold leading-none" style="color: var(--brand-primary);">
+          {s.value}
+        </p>
+        <p class="mt-2 text-sm font-medium text-gray-600">{s.label}</p>
+        <p class="mt-1 text-xs text-gray-400">{s.sub}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="grid gap-8 lg:grid-cols-2">
+
+    <!-- Age distribution + L&D -->
+    <div class="flex flex-col gap-8">
+      <!-- Age groups -->
+      <div class="rounded-2xl bg-white p-6 ring-1 ring-gray-100">
+        <h3 class="mb-5 text-xs font-semibold uppercase tracking-widest text-gray-400">{ageGroupsLabel}</h3>
+        <div class="space-y-5">
+          {hr.demographics.ageGroups.map(g => {
+            const label = lang === 'tr' ? g.labelTR : g.labelEN;
+            return (
+              <ProgressBar
+                label={label}
+                actual={g.percent}
+                target={100}
+                unit="%"
+                lang={lang}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      <!-- Training highlights -->
+      <div class="rounded-2xl bg-white p-6 ring-1 ring-gray-100">
+        <h3 class="mb-5 text-xs font-semibold uppercase tracking-widest text-gray-400">{trainingLabel}</h3>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="rounded-xl p-4 text-center" style="background-color: var(--brand-surface);">
+            <p class="font-heading text-2xl font-semibold" style="color: var(--brand-primary);">
+              {(hr.learning.totalTrainingHours / 1000).toLocaleString(loc, { maximumFractionDigits: 0 })}K
+            </p>
+            <p class="mt-1 text-xs text-gray-500">{lang === 'tr' ? 'Toplam Eğitim Saati' : 'Total Training Hours'}</p>
+          </div>
+          <div class="rounded-xl p-4 text-center" style="background-color: var(--brand-surface);">
+            <p class="font-heading text-2xl font-semibold" style="color: var(--brand-primary);">
+              {hr.learning.averageHoursPerEmployee.toLocaleString(loc, { maximumFractionDigits: 1 })}
+            </p>
+            <p class="mt-1 text-xs text-gray-500">{lang === 'tr' ? 'Kişi Başı Saat' : 'Hours per Employee'}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L&D Programs + Wellbeing -->
+    <div class="flex flex-col gap-8">
+      <!-- Programs -->
+      <div class="rounded-2xl bg-white p-6 ring-1 ring-gray-100">
+        <h3 class="mb-5 text-xs font-semibold uppercase tracking-widest text-gray-400">{programsLabel}</h3>
+        <div class="space-y-3">
+          {hr.learning.programs.map(prog => {
+            const label = lang === 'tr' ? prog.labelTR : prog.labelEN;
+            return (
+              <div class="flex items-center justify-between rounded-xl px-4 py-3" style="background-color: var(--brand-surface);">
+                <span class="text-sm font-medium text-gray-700">{label}</span>
+                <span class="text-sm font-semibold" style="color: var(--brand-primary);">
+                  {prog.participants.toLocaleString(loc)} {participLabel}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <!-- Wellbeing scores -->
+      <div class="rounded-2xl bg-white p-6 ring-1 ring-gray-100">
+        <h3 class="mb-5 text-xs font-semibold uppercase tracking-widest text-gray-400">{wellbeingLabel}</h3>
+        <div class="space-y-5">
+          <ProgressBar
+            label={lang === 'tr' ? 'Çalışan Memnuniyeti' : 'Employee Satisfaction'}
+            actual={hr.wellbeing.satisfactionScore}
+            target={hr.wellbeing.satisfactionOutOf}
+            unit=""
+            lang={lang}
+          />
+          <ProgressBar
+            label={lang === 'tr' ? 'Çalışan Bağlılığı' : 'Employee Engagement'}
+            actual={hr.wellbeing.engagementScore}
+            target={hr.wellbeing.engagementOutOf}
+            unit=""
+            lang={lang}
+          />
+          <div class="flex items-center justify-between rounded-xl px-4 py-3" style="background-color: var(--brand-surface);">
+            <span class="text-sm font-medium text-gray-700">
+              {lang === 'tr' ? 'Gönüllü İşten Ayrılma' : 'Voluntary Turnover'}
+            </span>
+            <span class="text-sm font-semibold" style="color: var(--brand-primary);">
+              %{hr.wellbeing.voluntaryTurnoverPercent}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

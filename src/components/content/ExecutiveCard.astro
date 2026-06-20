@@ -1,0 +1,64 @@
+---
+/**
+ * Executive message card for the /message section.
+ * Layout: photo + meta on the left, pull-quote + full message on the right.
+ * The full message body is passed via a <slot>.
+ */
+
+interface Props {
+  name: string;
+  title: string;
+  photo: string;
+  pullQuote: string;
+  index?: number; // used for alternating layout on desktop
+}
+
+const { name, title, photo, pullQuote, index = 0 } = Astro.props;
+const reverse = index % 2 !== 0;
+---
+
+<article
+  class={`flex flex-col gap-8 lg:gap-12 ${reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'}`}
+>
+  <!-- Photo + meta column -->
+  <div class="flex flex-col items-center gap-4 lg:w-56 lg:shrink-0 lg:items-start">
+    <div class="relative">
+      <div
+        class="absolute -inset-1 rounded-2xl opacity-20"
+        style="background: var(--brand-accent);"
+        aria-hidden="true"
+      ></div>
+      <img
+        src={photo}
+        alt={name}
+        width="160"
+        height="200"
+        loading="lazy"
+        class="relative h-44 w-36 rounded-2xl object-cover object-top shadow-md"
+        onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22200%22 viewBox=%220 0 160 200%22%3E%3Crect width=%22160%22 height=%22200%22 fill=%22%23f1f5f9%22/%3E%3Ccircle cx=%2280%22 cy=%2278%22 r=%2232%22 fill=%22%23cbd5e1%22/%3E%3Cellipse cx=%2280%22 cy=%22175%22 rx=%2256%22 ry=%2244%22 fill=%22%23cbd5e1%22/%3E%3C/svg%3E'"
+      />
+    </div>
+    <div class="text-center lg:text-left">
+      <p class="font-heading text-base font-semibold text-gray-900">{name}</p>
+      <p class="mt-0.5 text-sm text-gray-500">{title}</p>
+    </div>
+  </div>
+
+  <!-- Message column -->
+  <div class="flex flex-col gap-5 lg:flex-1">
+    <!-- Pull quote -->
+    <blockquote class="relative border-l-4 pl-5" style="border-color: var(--brand-accent);">
+      <p
+        class="font-heading text-lg font-medium leading-snug text-gray-800 sm:text-xl"
+        style="font-style: italic;"
+      >
+        "{pullQuote}"
+      </p>
+    </blockquote>
+
+    <!-- Full message body — passed via slot -->
+    <div class="prose prose-sm max-w-none text-gray-600 leading-relaxed prose-p:mt-3">
+      <slot />
+    </div>
+  </div>
+</article>

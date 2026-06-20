@@ -1,0 +1,102 @@
+---
+/**
+ * A single document row in the Downloads section.
+ * Shows title, description, file size, format badge, and a download button.
+ */
+
+interface Props {
+  title: string;
+  description: string;
+  file: string;
+  fileSizeMB: number;
+  format: string;
+  featured?: boolean;
+  lang?: 'tr' | 'en';
+}
+
+const { title, description, file, fileSizeMB, format, featured = false, lang = 'tr' } = Astro.props;
+
+const downloadLabel = lang === 'tr' ? 'İndir' : 'Download';
+const sizeLabel     = lang === 'tr' ? 'MB'    : 'MB';
+---
+
+<div
+  class={`group flex flex-col gap-4 rounded-2xl p-6 transition-shadow duration-300 sm:flex-row sm:items-center sm:justify-between ${
+    featured
+      ? 'bg-[var(--brand-primary)] text-white shadow-md'
+      : 'bg-white ring-1 ring-gray-100 hover:shadow-sm'
+  }`}
+>
+  <!-- Left: icon + text -->
+  <div class="flex items-start gap-4">
+    <!-- PDF icon -->
+    <div
+      class={`shrink-0 rounded-xl p-2.5 ${
+        featured ? 'bg-white/15' : 'bg-[color-mix(in_srgb,var(--brand-primary)_8%,transparent)]'
+      }`}
+      aria-hidden="true"
+    >
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class={featured ? 'text-white' : 'text-[var(--brand-primary)]'}
+      >
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
+        <polyline points="10 9 9 9 8 9"/>
+      </svg>
+    </div>
+
+    <!-- Title + description -->
+    <div>
+      <p class={`font-semibold leading-snug ${featured ? 'text-white' : 'text-gray-800'}`}>
+        {title}
+      </p>
+      <p class={`mt-1 text-sm leading-relaxed ${featured ? 'text-white/75' : 'text-gray-500'}`}>
+        {description}
+      </p>
+      <!-- Meta badges -->
+      <div class="mt-2 flex items-center gap-2">
+        <span
+          class={`rounded px-2 py-0.5 text-xs font-medium ${
+            featured ? 'bg-white/20 text-white' : 'bg-gray-100 text-gray-500'
+          }`}
+        >
+          {format}
+        </span>
+        <span class={`text-xs ${featured ? 'text-white/60' : 'text-gray-400'}`}>
+          {fileSizeMB} {sizeLabel}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Download button -->
+  <a
+    href={file}
+    download
+    class={`inline-flex shrink-0 items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+      featured
+        ? 'bg-white focus-visible:ring-white'
+        : 'focus-visible:ring-[var(--brand-primary)]'
+    }`}
+    style={featured
+      ? `color: var(--brand-primary);`
+      : `background-color: var(--brand-primary); color: #fff;`}
+    aria-label={`${downloadLabel} ${title}`}
+  >
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M7.5 1.5v8M4.5 6.5l3 3 3-3"/>
+      <path d="M1.5 11.5h12"/>
+    </svg>
+    {downloadLabel}
+  </a>
+</div>

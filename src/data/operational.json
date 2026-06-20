@@ -1,0 +1,59 @@
+{
+  "storeNetwork": {
+    "labelTR": "Bölgesel Mağaza Dağılımı",
+    "labelEN": "Store Network by Region",
+    "type": "bar",
+    "regions": [
+      { "labelTR": "İstanbul",    "labelEN": "Istanbul",      "count": 142 },
+      { "labelTR": "Ankara",      "labelEN": "Ankara",        "count": 61  },
+      { "labelTR": "İzmir",       "labelEN": "Izmir",         "count": 48  },
+      { "labelTR": "Antalya",     "labelEN": "Antalya",       "count": 34  },
+      { "labelTR": "Diğer Şehir","labelEN": "Other Cities",  "count": 202 }
+    ],
+    "totalStores": 487,
+    "newOpenings": 64,
+    "closures": 0
+  },
+  "ecommerceGrowth": {
+    "labelTR": "E-Ticaret Büyümesi",
+    "labelEN": "E-Commerce Growth",
+    "type": "line",
+    "years": [2020, 2021, 2022, 2023, 2024],
+    "gmvBillionTRY": [0.8, 1.4, 2.3, 3.9, 6.2],
+    "onlineOrdersMillions": [1.8, 2.9, 4.1, 5.9, 8.2],
+    "onlineRevenueShare": [12, 18, 24, 32, 41]
+  },
+  "categoryMix": {
+    "labelTR": "Kategori Satış Karması 2024",
+    "labelEN": "Category Sales Mix 2024",
+    "type": "doughnut",
+    "items": [
+      { "labelTR": "Bebek & Çocuk", "labelEN": "Baby & Kids",  "value": 38 },
+      { "labelTR": "Giyim",         "labelEN": "Apparel",       "value": 22 },
+      { "labelTR": "Oyuncak",       "labelEN": "Toys",          "value": 17 },
+      { "labelTR": "Beslenme",      "labelEN": "Nutrition",     "value": 14 },
+      { "labelTR": "Diğer",         "labelEN": "Other",         "value": 9  }
+    ]
+  },
+  "highlights": [
+    {
+      "labelTR": "Online Satış Payı",
+      "labelEN": "Online Revenue Share",
+      "value": 41,
+      "unit": "%",
+      "yoyChange": 9,
+      "captionTR": "Toplam satışların %41'i dijital kanallardan gerçekleşti.",
+      "captionEN": "41% of total revenue was generated through digital channels."
+    },
+    {
+      "labelTR": "Ortalama Sepet Tutarı",
+      "labelEN": "Average Basket Size",
+      "value": 756,
+      "unit": null,
+      "currency": "TRY",
+      "yoyChange": 14,
+      "captionTR": "Ortalama sepet tutarı bir önceki yıla göre %14 arttı.",
+      "captionEN": "Average basket size grew 14% year-over-year."
+    }
+  ]
+}

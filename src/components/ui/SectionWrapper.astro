@@ -1,0 +1,51 @@
+---
+/**
+ * Wraps any page section with:
+ *  - a semantic <section> with an id (used for anchor nav and IntersectionObserver)
+ *  - optional scroll-reveal animation via ScrollObserver.ts
+ *  - consistent vertical padding via .section-padding
+ *  - optional alternate background (--brand-surface) for visual rhythm
+ *
+ * Props:
+ *  id       — section anchor id (matches config.nav.links entries)
+ *  reveal   — animation mode: 'fade' | 'stagger' | false
+ *  alt      — use brand-surface background instead of white
+ *  class    — additional Tailwind classes
+ */
+
+interface Props {
+  id: string;
+  reveal?: 'fade' | 'stagger' | false;
+  alt?: boolean;
+  class?: string;
+}
+
+const {
+  id,
+  reveal = 'fade',
+  alt = false,
+  class: extraClass = '',
+} = Astro.props;
+
+const revealClass =
+  reveal === 'stagger' ? 'reveal-stagger'
+  : reveal === 'fade'  ? 'reveal'
+  : '';
+
+const bgStyle = alt ? 'background-color: var(--brand-surface);' : '';
+---
+
+<section
+  {id}
+  data-reveal={reveal ? '' : undefined}
+  class:list={[
+    'section-padding',
+    revealClass,
+    extraClass,
+  ]}
+  style={bgStyle}
+>
+  <div class="mx-auto max-w-screen-xl px-6">
+    <slot />
+  </div>
+</section>

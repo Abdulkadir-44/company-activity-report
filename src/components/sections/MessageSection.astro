@@ -1,0 +1,45 @@
+---
+import type { Locale } from '@/utils/i18n';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import ExecutiveCard from '@/components/content/ExecutiveCard.astro';
+import messages from '@/data/messages.json';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+
+const eyebrow = lang === 'tr' ? 'Mesajlar'            : 'Messages';
+const title   = lang === 'tr' ? 'Yönetimden Mesajlar' : 'From Our Leadership';
+const subtitle= lang === 'tr'
+  ? 'Yönetim Kurulu Başkanımız ve Genel Müdürümüzün 2024 yılına ilişkin değerlendirmeleri.'
+  : 'Reflections on 2024 from our Chairman and Chief Executive Officer.';
+
+// Pre-process outside template so Astro doesn't need fragments in map
+const processed = messages.messages.map((msg, i) => ({
+  index: i,
+  name:       lang === 'tr' ? msg.nameTR      : msg.nameEN,
+  role:       lang === 'tr' ? msg.titleTR     : msg.titleEN,
+  photo:      msg.photo,
+  pullQuote:  lang === 'tr' ? msg.pullQuoteTR : msg.pullQuoteEN,
+  paragraphs: (lang === 'tr' ? msg.messageTR  : msg.messageEN).split('\n\n').filter(Boolean),
+}));
+---
+
+<div>
+  <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
+
+  <div class="flex flex-col">
+    {processed.map(msg => (
+      <div class={msg.index > 0 ? 'mt-16 border-t border-gray-100 pt-16' : ''}>
+        <ExecutiveCard
+          name={msg.name}
+          title={msg.role}
+          photo={msg.photo}
+          pullQuote={msg.pullQuote}
+          index={msg.index}
+        >
+          {msg.paragraphs.map(p => <p>{p}</p>)}
+        </ExecutiveCard>
+      </div>
+    ))}
+  </div>
+</div>

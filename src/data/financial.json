@@ -1,0 +1,43 @@
+{
+  "currency": "TRY",
+  "revenueChart": {
+    "labelTR": "Yıllara Göre Net Satışlar (Milyar TL)",
+    "labelEN": "Net Revenue by Year (Billion TRY)",
+    "type": "bar",
+    "years": [2020, 2021, 2022, 2023, 2024],
+    "values": [3.2, 4.8, 6.1, 9.87, 12.45]
+  },
+  "ebitdaChart": {
+    "labelTR": "FAVÖK & FAVÖK Marjı",
+    "labelEN": "EBITDA & EBITDA Margin",
+    "type": "bar",
+    "years": [2020, 2021, 2022, 2023, 2024],
+    "ebitdaValues": [0.48, 0.79, 1.04, 1.82, 2.34],
+    "marginValues": [15.0, 16.5, 17.1, 18.4, 18.8]
+  },
+  "costBreakdown": {
+    "labelTR": "Gider Dağılımı 2024",
+    "labelEN": "Cost Breakdown 2024",
+    "type": "doughnut",
+    "items": [
+      { "labelTR": "Satış Maliyeti", "labelEN": "Cost of Goods", "value": 58.2 },
+      { "labelTR": "Genel Giderler", "labelEN": "SG&A", "value": 18.4 },
+      { "labelTR": "Pazarlama", "labelEN": "Marketing", "value": 8.1 },
+      { "labelTR": "Lojistik", "labelEN": "Logistics", "value": 6.5 },
+      { "labelTR": "Diğer", "labelEN": "Other", "value": 8.8 }
+    ]
+  },
+  "incomeStatement": {
+    "titleTR": "Özet Gelir Tablosu (Milyon TL)",
+    "titleEN": "Condensed Income Statement (Million TRY)",
+    "footnote": "TFRS'ye uygun olarak hazırlanmıştır. | Prepared in accordance with TFRS.",
+    "rows": [
+      { "labelTR": "Net Satışlar", "labelEN": "Net Revenue",         "2023": 9870,  "2024": 12450, "highlight": false },
+      { "labelTR": "Brüt Kâr",    "labelEN": "Gross Profit",        "2023": 3948,  "2024": 5231,  "highlight": false },
+      { "labelTR": "Brüt Marj",   "labelEN": "Gross Margin",        "2023": "40.0%","2024": "42.0%","highlight": false },
+      { "labelTR": "FAVÖK",       "labelEN": "EBITDA",              "2023": 1820,  "2024": 2340,  "highlight": true  },
+      { "labelTR": "FAVÖK Marjı", "labelEN": "EBITDA Margin",       "2023": "18.4%","2024": "18.8%","highlight": false },
+      { "labelTR": "Net Kâr",     "labelEN": "Net Profit",          "2023": 890,   "2024": 1180,  "highlight": true  }
+    ]
+  }
+}

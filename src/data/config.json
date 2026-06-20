@@ -1,0 +1,39 @@
+{
+  "company": {
+    "name": "Acme Corporation",
+    "nameTR": "Acme Kurumsal A.Ş.",
+    "reportYear": 2024,
+    "tagline": "Building Tomorrow, Together.",
+    "taglineTR": "Yarını Birlikte İnşa Ediyoruz.",
+    "logo": "/assets/logo.svg",
+    "primaryColor": "#1B3A6B",
+    "accentColor": "#E8A020",
+    "surfaceColor": "#F8F9FC",
+    "websiteUrl": "https://www.acme.com",
+    "investorRelationsUrl": "https://ir.acme.com",
+    "address": "Maslak Mahallesi, Büyükdere Cad. No:123, 34398 Sarıyer / İstanbul",
+    "phone": "+90 212 000 00 00",
+    "email": "investor@acme.com"
+  },
+  "nav": {
+    "links": ["about", "message", "kpi", "financial", "operational", "governance", "sustainability", "people", "downloads"]
+  },
+  "features": {
+    "languageSwitcher": true,
+    "darkMode": false,
+    "singlePageScroll": true,
+    "scrollProgressBar": true
+  },
+  "seo": {
+    "titleSuffix": "| Acme 2024 Annual Report",
+    "titleSuffixTR": "| Acme 2024 Faaliyet Raporu",
+    "description": "Acme Corporation 2024 Annual Report — financial highlights, operational milestones, ESG commitments, and governance.",
+    "descriptionTR": "Acme Kurumsal 2024 Faaliyet Raporu — finansal öne çıkanlar, operasyonel kilometre taşları, ESG taahhütleri ve yönetim.",
+    "ogImage": "/assets/og-image.jpg"
+  },
+  "social": {
+    "linkedin": "https://linkedin.com/company/acme",
+    "twitter": "https://twitter.com/acme",
+    "instagram": ""
+  }
+}

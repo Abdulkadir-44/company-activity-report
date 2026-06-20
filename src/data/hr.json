@@ -1,0 +1,40 @@
+{
+  "headcount": {
+    "total": 12840,
+    "fullTime": 10920,
+    "partTime": 1920,
+    "yoyChange": 14.6
+  },
+  "demographics": {
+    "genderRatio": {
+      "female": 64,
+      "male": 36
+    },
+    "ageGroups": [
+      { "labelTR": "18–25",  "labelEN": "18–25",  "percent": 22 },
+      { "labelTR": "26–35",  "labelEN": "26–35",  "percent": 41 },
+      { "labelTR": "36–45",  "labelEN": "36–45",  "percent": 25 },
+      { "labelTR": "46+",    "labelEN": "46+",    "percent": 12 }
+    ],
+    "averageAge": 31.4,
+    "averageTenureYears": 4.2
+  },
+  "learning": {
+    "totalTrainingHours": 486000,
+    "averageHoursPerEmployee": 37.8,
+    "digitalLearningPercent": 68,
+    "programs": [
+      { "labelTR": "Liderlik Akademisi",     "labelEN": "Leadership Academy",       "participants": 340  },
+      { "labelTR": "Dijital Yetkinlik",       "labelEN": "Digital Skills",           "participants": 2100 },
+      { "labelTR": "Müşteri Deneyimi",        "labelEN": "Customer Experience",      "participants": 5800 },
+      { "labelTR": "Teknik Eğitim",           "labelEN": "Technical Training",       "participants": 1200 }
+    ]
+  },
+  "wellbeing": {
+    "satisfactionScore": 78,
+    "satisfactionOutOf": 100,
+    "engagementScore": 81,
+    "engagementOutOf": 100,
+    "voluntaryTurnoverPercent": 12.3
+  }
+}

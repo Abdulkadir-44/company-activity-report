@@ -1,0 +1,569 @@
+---
+import type { Locale } from '@/utils/i18n';
+import { useTranslations } from '@/utils/i18n';
+import about from '@/data/about.json';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const story    = lang === 'tr' ? about.storyTR    : about.storyEN;
+const mission  = lang === 'tr' ? about.missionTR  : about.missionEN;
+const vision   = lang === 'tr' ? about.visionTR   : about.visionEN;
+
+const VALUE_ICONS: Record<string, string> = {
+  heart:    'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z',
+  shield:   'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z',
+  lightbulb:'M9 18h6M10 22h4M12 2a7 7 0 0 1 7 7c0 2.5-1.3 4.7-3.2 6.1L15 17H9l-.8-1.9A7 7 0 0 1 12 2z',
+  leaf:     'M17 8C8 10 5.9 16.17 3.82 19.82L5.6 21.6C7 19 9 17 11 16c-1 2-1 4 0 6 2-2 3-4 3-6 1 1 1 3 1 5 2-3 3-5 2-9 1 1 2 3 2 5 2-4 1-8-2-13z',
+  store:    'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10',
+  'shopping-cart': 'M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6 M9 21a1 1 0 1 0 2 0 1 1 0 0 0-2 0 M20 21a1 1 0 1 0 2 0 1 1 0 0 0-2 0',
+  truck:    'M1 3h15v13H1zM16 8h4l3 3v5h-7V8z M5.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M18.5 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z',
+  tag:      'M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z M7 7h.01',
+};
+
+const eyebrowLabel = lang === 'tr' ? 'Hakkımızda'       : 'About Us';
+const headingLabel = lang === 'tr' ? 'Bizi Tanıyın'     : 'Who We Are';
+const missionLabel = lang === 'tr' ? 'Misyonumuz'       : 'Our Mission';
+const visionLabel  = lang === 'tr' ? 'Vizyonumuz'       : 'Our Vision';
+const valuesLabel  = lang === 'tr' ? 'Temel Değerlerimiz' : 'Our Core Values';
+const areasLabel   = lang === 'tr' ? 'İş Alanlarımız'   : 'Business Areas';
+const photoAlt     = lang === 'tr' ? `${about.storyTR?.split('.')[0]}` : `${about.storyEN?.split('.')[0]}`;
+const photoHint    = lang === 'tr' ? 'Şirket fotoğrafı buraya gelecek' : 'Company photo goes here';
+const photoPath    = 'public/assets/about-photo.jpg';
+---
+
+<div>
+  <!-- Two-column intro: text left, image card right -->
+  <div class="mb-16 grid items-center gap-12 lg:grid-cols-[1fr_400px]">
+
+    <!-- Left: heading block -->
+    <div>
+      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em]" style="color: var(--brand-accent);">
+        {eyebrowLabel}
+      </p>
+      <h2 class="font-heading text-3xl font-semibold leading-tight sm:text-4xl" style="color: var(--brand-primary);">
+        {headingLabel}
+      </h2>
+      <p class="mt-4 max-w-xl text-base leading-relaxed text-gray-500">{story}</p>
+    </div>
+
+    <!-- Right: premium image card with offset accent border -->
+    <div class="about-image-card relative self-stretch lg:min-h-[340px]">
+      <!-- Offset decorative border (accent color, behind the card) -->
+      <div
+        class="pointer-events-none absolute -bottom-4 -right-4 h-full w-full rounded-2xl border-2"
+        style="border-color: var(--brand-accent); opacity: 0.55;"
+        aria-hidden="true"
+      ></div>
+
+      <!-- Main card surface -->
+      <div class="relative z-10 h-full overflow-hidden rounded-2xl shadow-xl shadow-gray-900/10 ring-1 ring-black/5">
+        <!-- Actual photo — hidden until dropped in -->
+        <img
+          src="/assets/about-photo.jpg"
+          alt={photoAlt}
+          class="about-photo absolute inset-0 h-full w-full object-cover"
+          onerror="this.onerror=null;this.style.display='none';"
+        />
+
+        <!-- Placeholder shown while photo is absent -->
+        <div
+          class="flex h-full min-h-[320px] flex-col items-center justify-center gap-5 p-10"
+          style="background: linear-gradient(135deg, color-mix(in srgb, var(--brand-primary) 8%, var(--brand-surface)) 0%, color-mix(in srgb, var(--brand-accent) 6%, var(--brand-surface)) 100%);"
+        >
+          <!-- Camera icon -->
+          <div
+            class="flex h-20 w-20 items-center justify-center rounded-2xl"
+            style="background-color: color-mix(in srgb, var(--brand-primary) 10%, transparent);"
+          >
+            <svg
+              width="32" height="32" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"
+              aria-hidden="true"
+              style="color: var(--brand-primary); opacity: 0.45;"
+            >
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+          </div>
+
+          <!-- Hint text -->
+          <div class="text-center">
+            <p class="text-sm font-medium" style="color: var(--brand-primary); opacity: 0.5;">{photoHint}</p>
+            <p class="mt-1 font-mono text-xs text-gray-400">{photoPath}</p>
+          </div>
+
+          <!-- Decorative corner accent lines -->
+          <div class="pointer-events-none absolute left-5 top-5 h-10 w-10" aria-hidden="true">
+            <div class="absolute left-0 top-0 h-full w-0.5 rounded-full" style="background-color: var(--brand-accent); opacity: 0.35;"></div>
+            <div class="absolute left-0 top-0 h-0.5 w-full rounded-full" style="background-color: var(--brand-accent); opacity: 0.35;"></div>
+          </div>
+          <div class="pointer-events-none absolute bottom-5 right-5 h-10 w-10" aria-hidden="true">
+            <div class="absolute bottom-0 right-0 h-full w-0.5 rounded-full" style="background-color: var(--brand-accent); opacity: 0.35;"></div>
+            <div class="absolute bottom-0 right-0 h-0.5 w-full rounded-full" style="background-color: var(--brand-accent); opacity: 0.35;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mission & Vision -->
+  <div class="mb-16 grid gap-6 sm:grid-cols-2">
+    <div class="rounded-2xl p-8" style="background-color: var(--brand-primary);">
+      <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-white/60">{missionLabel}</p>
+      <p class="font-heading text-lg font-medium leading-snug text-white">{mission}</p>
+    </div>
+    <div class="rounded-2xl border-2 p-8" style="border-color: var(--brand-accent);">
+      <p class="mb-3 text-xs font-semibold uppercase tracking-widest" style="color: var(--brand-accent);">{visionLabel}</p>
+      <p class="font-heading text-lg font-medium leading-snug" style="color: var(--brand-primary);">{vision}</p>
+    </div>
+  </div>
+
+  <!-- Core Values — Bento Grid -->
+  <div class="mb-16">
+    <h3 class="mb-8 text-xs font-semibold uppercase tracking-[0.18em] text-gray-400">{valuesLabel}</h3>
+
+    <div class="grid grid-cols-1 gap-3.5 md:grid-cols-3">
+
+      {about.values.slice(0, 4).map((v, i) => {
+        const label = lang === 'tr' ? v.labelTR : v.labelEN;
+        const desc  = lang === 'tr' ? v.descTR  : v.descEN;
+        const idx   = String(i + 1).padStart(2, '0');
+        const slot  = `value-photo-0${i + 1}.jpg`;
+
+        /* ── Card 0: dark featured, col-span-2, stacked ── */
+        if (i === 0) return (
+          <div class="bento-card bento-dark relative flex flex-col overflow-hidden rounded-3xl p-7 md:col-span-2"
+               style="background-color: var(--brand-primary); min-height: 300px;">
+
+            <span class="mb-1 text-[10px] font-bold tracking-[0.26em] text-white/20">{idx}</span>
+
+            <div class="bento-img-wrap my-5 flex-shrink-0 overflow-hidden rounded-2xl">
+              <div class="bento-img-inner bento-img-bg-dark h-44 w-full">
+                <div class="flex h-full items-end justify-end p-3">
+                  <span class="font-mono text-[8px] text-white/15">public/assets/{slot}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-auto">
+              <p class="font-heading text-xl font-semibold leading-snug text-white">{label}</p>
+              <p class="mt-2.5 text-sm leading-relaxed text-white/55">{desc}</p>
+            </div>
+
+            <!-- Decorative accent dot -->
+            <div class="pointer-events-none absolute right-7 top-7 h-2 w-2 rounded-full"
+                 style="background-color: var(--brand-accent); opacity: 0.6;" aria-hidden="true"></div>
+          </div>
+        );
+
+        /* ── Card 1: light compact, col-span-1, stacked ── */
+        if (i === 1) return (
+          <div class="bento-card bento-light relative flex flex-col overflow-hidden rounded-3xl bg-white p-7 ring-1 ring-gray-100"
+               style="min-height: 300px;">
+
+            <span class="mb-1 text-[10px] font-bold tracking-[0.26em] text-gray-300">{idx}</span>
+
+            <div class="bento-img-wrap my-5 flex-shrink-0 overflow-hidden rounded-2xl">
+              <div class="bento-img-inner bento-img-bg-light h-36 w-full">
+                <div class="flex h-full items-end justify-end p-3">
+                  <span class="font-mono text-[8px] text-gray-300">public/assets/{slot}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-auto">
+              <p class="font-heading text-base font-semibold leading-snug" style="color: var(--brand-primary);">{label}</p>
+              <p class="mt-2 text-sm leading-relaxed text-gray-400">{desc}</p>
+            </div>
+          </div>
+        );
+
+        /* ── Card 2: accent-tinted, col-span-1, inverted (text → image) ── */
+        if (i === 2) return (
+          <div class="bento-card bento-accent relative flex flex-col overflow-hidden rounded-3xl p-7"
+               style="background-color: color-mix(in srgb, var(--brand-accent) 9%, var(--brand-surface)); min-height: 260px;">
+
+            <!-- Top accent rule -->
+            <div class="mb-5 h-0.5 w-10 rounded-full flex-shrink-0"
+                 style="background-color: var(--brand-accent);"></div>
+
+            <div class="mb-auto">
+              <p class="font-heading text-base font-semibold leading-snug" style="color: var(--brand-primary);">{label}</p>
+              <p class="mt-2 text-sm leading-relaxed text-gray-500">{desc}</p>
+              <span class="mt-4 inline-block text-[10px] font-bold tracking-[0.26em] text-gray-300">{idx}</span>
+            </div>
+
+            <div class="bento-img-wrap mt-5 flex-shrink-0 overflow-hidden rounded-2xl">
+              <div class="bento-img-inner bento-img-bg-accent h-32 w-full">
+                <div class="flex h-full items-end justify-end p-3">
+                  <span class="font-mono text-[8px] text-gray-400">public/assets/{slot}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+        /* ── Card 3: surface, col-span-2, horizontal on md+ ── */
+        return (
+          <div class="bento-card bento-surface relative flex flex-col overflow-hidden rounded-3xl md:col-span-2 md:flex-row"
+               style="background-color: var(--brand-surface); border: 1px solid var(--color-border, #e5e7eb); min-height: 220px;">
+
+            <!-- Text side -->
+            <div class="flex flex-1 flex-col justify-between p-7">
+              <span class="text-[10px] font-bold tracking-[0.26em] text-gray-300">{idx}</span>
+              <div>
+                <p class="font-heading text-xl font-semibold leading-snug" style="color: var(--brand-primary);">{label}</p>
+                <p class="mt-2.5 text-sm leading-relaxed text-gray-500">{desc}</p>
+              </div>
+            </div>
+
+            <!-- Image side -->
+            <div class="bento-img-wrap m-4 flex-shrink-0 overflow-hidden rounded-2xl md:w-52">
+              <div class="bento-img-inner bento-img-bg-surface h-48 w-full md:h-full">
+                <div class="flex h-full items-end justify-end p-3">
+                  <span class="font-mono text-[8px] text-gray-400">public/assets/{slot}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+    </div>
+  </div>
+
+  <!-- Business Areas — Sticky Stacked Card Scroll -->
+  <div>
+
+    <!-- ── Display heading (centered, tracking-in animation) ── -->
+    <div class="mb-16 text-center">
+      <p class="mb-4 text-xs font-semibold uppercase tracking-[0.22em]"
+         style="color: var(--brand-accent);">
+        {areasLabel}
+      </p>
+      <h3 class="areas-heading font-heading text-5xl font-semibold leading-none sm:text-6xl lg:text-[5.5rem]"
+          style="color: var(--brand-primary);">
+        {lang === 'tr' ? 'İş Alanlarımız' : 'Our Business Areas'}
+      </h3>
+    </div>
+
+    <!-- ── Sticky card stack ── -->
+    <!--
+      pb-[60vh]: The math demands it.
+      3 card transitions × ~380px per transition ≈ 1140px of scroll needed.
+      Without pb the section is only 1520px tall; at ~900px viewport that gives
+      620px scrollable — not enough. 60vh adds the required travel distance.
+    -->
+    <div class="pb-[60vh]">
+      {about.businessAreas.slice(0, 4).map((area, i) => {
+        const label  = lang === 'tr' ? area.labelTR : area.labelEN;
+        const desc   = lang === 'tr' ? area.descTR  : area.descEN;
+        const path   = VALUE_ICONS[area.icon] ?? '';
+        const idx    = String(i + 1).padStart(2, '0');
+        const isEven = i % 2 === 0;
+        const slot   = `business-photo-0${i + 1}.jpg`;
+
+        // Sticky offsets: 64px header + 16px buffer + 10px per card
+        const stickyTop = 80 + i * 10;
+        const zIdx      = 10 + i * 10;
+
+        // Subtly different backgrounds so peeking card tops are legible
+        const cardBg = [
+          '#ffffff',
+          'color-mix(in srgb, var(--brand-surface) 100%, transparent)',
+          'color-mix(in srgb, var(--brand-primary) 5%, #ffffff)',
+          'color-mix(in srgb, var(--brand-accent) 8%, var(--brand-surface))',
+        ][i] ?? '#ffffff';
+
+        // Image texture — slightly different tint intensity per card
+        const textureTint = `color-mix(in srgb, var(--brand-primary) ${5 + i * 2}%, var(--brand-surface))`;
+
+        return (
+          <div
+            class="stack-card relative flex min-h-[380px] flex-col overflow-hidden rounded-3xl md:flex-row"
+            style={`background-color: ${cardBg}; position: sticky; top: ${stickyTop}px; z-index: ${zIdx};`}
+            data-stack-idx={String(i)}
+          >
+
+            {/* ── Image panel ── */}
+            <div
+              class:list={[
+                'relative flex-shrink-0 overflow-hidden',
+                'h-56 w-full md:h-auto md:w-[42%]',
+                isEven ? 'md:order-first' : 'md:order-last',
+              ]}
+            >
+              {/* Texture fill — JS scale targets .stack-img-inner */}
+              <div
+                class="stack-img-inner absolute inset-0"
+                style={`background:
+                  repeating-linear-gradient(
+                    -45deg,
+                    transparent 0, transparent 5px,
+                    rgba(0,0,0,0.022) 5px, rgba(0,0,0,0.022) 6px
+                  ),
+                  ${textureTint};`}
+              ></div>
+
+              {/* File-path hint */}
+              <span
+                class="absolute bottom-3 right-3 z-10 font-mono text-[7px] text-gray-300"
+                aria-hidden="true"
+              >
+                public/assets/{slot}
+              </span>
+
+              {/* Corner accent bracket — top-left */}
+              <div class="pointer-events-none absolute left-4 top-4 h-7 w-7" aria-hidden="true">
+                <div class="absolute left-0 top-0 h-full w-[1.5px] rounded-full opacity-40"
+                     style="background-color: var(--brand-accent);"></div>
+                <div class="absolute left-0 top-0 h-[1.5px] w-full rounded-full opacity-40"
+                     style="background-color: var(--brand-accent);"></div>
+              </div>
+            </div>
+
+            {/* ── Text panel ── */}
+            <div
+              class:list={[
+                'flex flex-1 flex-col justify-center px-8 py-10 lg:px-14 lg:py-12',
+                isEven ? 'md:order-last' : 'md:order-first',
+              ]}
+            >
+              {/* Index + rule */}
+              <div class="mb-7 flex items-center gap-4">
+                <span class="font-mono text-[10px] font-bold tracking-[0.28em] text-gray-300">{idx}</span>
+                <div class="h-px flex-1 bg-gray-100"></div>
+              </div>
+
+              {/* Accent icon */}
+              <div
+                class="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl"
+                style="background-color: color-mix(in srgb, var(--brand-accent) 12%, transparent); color: var(--brand-accent);"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d={path}/>
+                </svg>
+              </div>
+
+              <p class="font-heading text-2xl font-semibold leading-snug lg:text-[2rem]"
+                 style="color: var(--brand-primary);">
+                {label}
+              </p>
+              <p class="mt-4 max-w-sm text-[0.9375rem] leading-relaxed text-gray-500">
+                {desc}
+              </p>
+            </div>
+
+          </div>
+        );
+      })}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* ── Bento card: base transition ──────────────────────────────────────────── */
+  .bento-card {
+    transition:
+      transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.38s ease;
+    will-change: transform;
+  }
+
+  /* Lift + inset glow per variant */
+  .bento-dark:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 32px 64px -10px rgba(0, 0, 0, 0.32),
+      inset 0 0 0 1.5px var(--brand-accent);
+  }
+
+  .bento-light:hover,
+  .bento-surface:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 24px 48px -8px rgba(0, 0, 0, 0.10),
+      inset 0 0 0 1.5px var(--brand-accent);
+  }
+
+  .bento-accent:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 24px 48px -8px rgba(0, 0, 0, 0.10),
+      inset 0 0 0 1.5px var(--brand-primary);
+  }
+
+  /* ── Image placeholder backgrounds (diagonal-stripe texture) ──────────────── */
+  .bento-img-bg-dark {
+    background:
+      repeating-linear-gradient(
+        -45deg,
+        transparent 0px, transparent 6px,
+        rgba(255, 255, 255, 0.04) 6px, rgba(255, 255, 255, 0.04) 7px
+      ),
+      color-mix(in srgb, var(--brand-primary) 80%, black 20%);
+  }
+
+  .bento-img-bg-light {
+    background:
+      repeating-linear-gradient(
+        -45deg,
+        transparent 0px, transparent 6px,
+        rgba(0, 0, 0, 0.025) 6px, rgba(0, 0, 0, 0.025) 7px
+      ),
+      color-mix(in srgb, var(--brand-primary) 5%, var(--brand-surface));
+  }
+
+  .bento-img-bg-accent {
+    background:
+      repeating-linear-gradient(
+        -45deg,
+        transparent 0px, transparent 6px,
+        rgba(0, 0, 0, 0.03) 6px, rgba(0, 0, 0, 0.03) 7px
+      ),
+      color-mix(in srgb, var(--brand-accent) 14%, var(--brand-surface));
+  }
+
+  .bento-img-bg-surface {
+    background:
+      repeating-linear-gradient(
+        -45deg,
+        transparent 0px, transparent 6px,
+        rgba(0, 0, 0, 0.025) 6px, rgba(0, 0, 0, 0.025) 7px
+      ),
+      color-mix(in srgb, var(--brand-primary) 7%, var(--brand-surface));
+  }
+
+  /* ── Image zoom on card hover ──────────────────────────────────────────────── */
+  .bento-img-inner {
+    transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .bento-card:hover .bento-img-inner {
+    transform: scale(1.06);
+  }
+
+  /* ── Business Areas: display heading ──────────────────────────────────────── */
+  /*
+   * Starts with compressed letter-spacing (-0.07em).
+   * When the parent SectionWrapper's .reveal gets .is-visible,
+   * that class cascades and triggers the tracking-expand here.
+   * Opacity/transform are handled by the parent reveal — this
+   * component only adds the letter-spacing dimension.
+   */
+  .areas-heading {
+    letter-spacing: -0.07em;
+    transition: letter-spacing 1.1s cubic-bezier(0.2, 0.9, 0.3, 1) 0.3s;
+  }
+
+  :global(.reveal.is-visible) .areas-heading,
+  :global(.reveal-stagger.is-visible) .areas-heading {
+    letter-spacing: -0.025em; /* Tailwind's tracking-tight */
+  }
+
+  /* ── Sticky stack cards ────────────────────────────────────────────────────── */
+  /*
+   * transform-origin: top center — JS scale-down emanates from the card's
+   * top edge so stuck cards visually "compress" toward where they peek.
+   *
+   * box-shadow is the ONLY CSS-transitioned property here.
+   * transform and filter are set directly by the scroll JS with no CSS
+   * transition so they track scroll position without lag.
+   */
+  .stack-card {
+    transform-origin: top center;
+    box-shadow:
+      0 -2px 12px -2px rgba(0, 0, 0, 0.04),
+      0 16px 40px -8px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.35s ease;
+  }
+
+  .stack-card:hover {
+    box-shadow:
+      0 -2px 12px -2px rgba(0, 0, 0, 0.04),
+      0 28px 56px -8px rgba(0, 0, 0, 0.14),
+      inset 0 0 0 1.5px var(--brand-accent);
+  }
+
+  /* Stack image zoom */
+  .stack-img-inner {
+    transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .stack-card:hover .stack-img-inner {
+    transform: scale(1.05);
+  }
+</style>
+
+<script>
+  /**
+   * Scroll-driven scale for sticky stacked cards.
+   *
+   * When card N is stuck, we progressively scale it down (1 → 0.976) and dim
+   * it (brightness 1 → 0.94) as card N+1 slides up from the viewport bottom
+   * to its own sticky top. This creates the "deck of cards" depth illusion.
+   *
+   * IMPORTANT: No CSS transition on transform/filter — they must track scroll
+   * instantly. Only box-shadow has a CSS transition (hover glow).
+   *
+   * Formula for progress (0 → 1):
+   *   0 = next card's top is at the viewport bottom (just entering)
+   *   1 = next card's top is at its sticky threshold (fully covering)
+   */
+  (function () {
+    const cards = Array.from(
+      document.querySelectorAll<HTMLElement>('.stack-card[data-stack-idx]')
+    );
+    if (cards.length === 0) return;
+
+    // Must match the sticky top values in the template (80 + i × 10)
+    const HEADER_H  = 64; // h-16
+    const BUFFER    = 16; // gap between header and first card
+    const INCREMENT = 10; // px between successive sticky tops
+
+    function getStickyTop(i: number): number {
+      return HEADER_H + BUFFER + i * INCREMENT;
+    }
+
+    function tick() {
+      const wH = window.innerHeight;
+
+      for (let i = 0; i < cards.length - 1; i++) {
+        const card     = cards[i];
+        const next     = cards[i + 1];
+        const myTop    = getStickyTop(i);
+        const nextTop  = getStickyTop(i + 1);
+        const cardRect = card.getBoundingClientRect();
+
+        if (cardRect.top > myTop + 2) {
+          // Not yet stuck — restore in case user scrolled back up
+          card.style.transform = '';
+          card.style.filter    = '';
+          continue;
+        }
+
+        // Card is stuck. Measure how far the next card has travelled.
+        const nextRect   = next.getBoundingClientRect();
+        const travelDist = wH - nextTop; // total px next card travels to reach its top
+
+        const progress = travelDist > 0
+          ? Math.max(0, Math.min(1, (wH - nextRect.top) / travelDist))
+          : 0;
+
+        const scale      = (1 - progress * 0.024).toFixed(5);
+        const brightness = (1 - progress * 0.055).toFixed(5);
+
+        card.style.transform = `scale(${scale}) translateZ(0)`;
+        card.style.filter    = `brightness(${brightness})`;
+      }
+    }
+
+    window.addEventListener('scroll', tick, { passive: true });
+    window.addEventListener('resize', tick, { passive: true });
+    tick();
+  })();
+</script>

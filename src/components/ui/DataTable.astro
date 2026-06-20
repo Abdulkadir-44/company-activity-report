@@ -1,0 +1,98 @@
+---
+/**
+ * Responsive financial data table.
+ * Highlights marked rows, supports footnotes, horizontal-scrolls on mobile.
+ */
+
+interface Column {
+  key: string;
+  label: string;
+  align?: 'left' | 'right' | 'center';
+}
+
+interface Row {
+  [key: string]: string | number | boolean;
+  highlight?: boolean;
+}
+
+interface Props {
+  title?: string;
+  columns: Column[];
+  rows: Row[];
+  footnote?: string;
+  caption?: string;
+}
+
+const { title, columns, rows, footnote, caption } = Astro.props;
+---
+
+<div class="w-full">
+  {title && (
+    <h3 class="mb-4 font-heading text-xl font-semibold" style="color: var(--brand-primary);">
+      {title}
+    </h3>
+  )}
+
+  <!-- Horizontal scroll wrapper for mobile -->
+  <div class="overflow-x-auto rounded-xl ring-1 ring-gray-100">
+    <table class="w-full min-w-[480px] border-collapse text-sm">
+      {caption && <caption class="sr-only">{caption}</caption>}
+
+      <thead>
+        <tr style="background-color: var(--brand-primary);">
+          {columns.map((col) => (
+            <th
+              scope="col"
+              class={`px-5 py-3.5 text-xs font-semibold uppercase tracking-wider text-white ${
+                col.align === 'right'  ? 'text-right'  :
+                col.align === 'center' ? 'text-center' : 'text-left'
+              }`}
+            >
+              {col.label}
+            </th>
+          ))}
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-50">
+        {rows.map((row, i) => (
+          <tr
+            class={`transition-colors hover:bg-gray-50 ${
+              row.highlight
+                ? 'font-semibold'
+                : i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'
+            }`}
+          >
+            {columns.map((col) => {
+              const val = row[col.key];
+              const isFirstCol = columns[0].key === col.key;
+              return isFirstCol ? (
+                <th
+                  scope="row"
+                  class={`px-5 py-3.5 text-left ${row.highlight ? 'text-[var(--brand-primary)]' : 'text-gray-700'}`}
+                >
+                  {String(val)}
+                </th>
+              ) : (
+                <td
+                  class={`px-5 py-3.5 tabular-nums ${
+                    col.align === 'right'  ? 'text-right'  :
+                    col.align === 'center' ? 'text-center' : 'text-left'
+                  } ${row.highlight ? 'text-[var(--brand-primary)]' : 'text-gray-600'}`}
+                >
+                  {String(val ?? '—')}
+                </td>
+              );
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  {footnote && (
+    <p class="mt-3 text-xs leading-relaxed text-gray-400">
+      * {footnote}
+    </p>
+  )}
+</div>

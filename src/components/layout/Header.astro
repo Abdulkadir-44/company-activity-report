@@ -1,0 +1,594 @@
+---
+import type { Locale } from '@/utils/i18n';
+import { useTranslations, alternateLangUrl } from '@/utils/i18n';
+import config from '@/data/config.json';
+
+interface Props { lang: Locale; }
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const { company, features } = config;
+
+const companyName  = lang === 'tr' ? company.nameTR : company.name;
+const altLangUrl   = alternateLangUrl(lang);
+const altLangLabel = t('language.switchTo');
+
+// ── Nav group definitions ─────────────────────────────────────────────────────
+// items: section IDs that exist as anchors on the page.
+// Single-item groups render as direct anchor links (no dropdown).
+const NAV_GROUPS = [
+  {
+    id: 'group-about',
+    labelTR: 'Hakkımızda',
+    labelEN: 'About Us',
+    items: [
+      { id: 'about',      descTR: 'Hikayemiz, misyon & vizyon',        descEN: 'Story, mission & vision' },
+      { id: 'message',    descTR: 'Yönetim kurulundan mesajlar',        descEN: 'Leadership messages' },
+      { id: 'governance', descTR: 'Yönetim kurulu & komiteler',         descEN: 'Board & committees' },
+    ],
+  },
+  {
+    id: 'group-performance',
+    labelTR: 'Performans',
+    labelEN: 'Performance',
+    items: [
+      { id: 'kpi',         descTR: 'Temel performans göstergeleri',     descEN: 'Key performance indicators' },
+      { id: 'financial',   descTR: 'Gelir tablosu & grafikler',         descEN: 'Revenue, EBITDA & income statement' },
+      { id: 'operational', descTR: 'Mağaza ağı & e-ticaret',            descEN: 'Store network & e-commerce' },
+    ],
+  },
+  {
+    id: 'group-responsibility',
+    labelTR: 'Sorumluluk',
+    labelEN: 'Responsibility',
+    items: [
+      { id: 'sustainability', descTR: 'Çevre & ESG taahhütleri',        descEN: 'Environment & ESG commitments' },
+      { id: 'people',         descTR: 'Çalışanlar & yetenek gelişimi',  descEN: 'People & talent development' },
+    ],
+  },
+  {
+    id: 'group-media',
+    labelTR: 'Medya',
+    labelEN: 'Media',
+    items: [
+      { id: 'downloads', descTR: 'Raporlar & kurumsal belgeler',         descEN: 'Reports & corporate documents' },
+    ],
+  },
+] as const;
+
+// Section ID → translated label (for use in dropdown items)
+const navLabel = (id: string) => t(`nav.${id}`);
+const groupLabel = (g: typeof NAV_GROUPS[number]) => lang === 'tr' ? g.labelTR : g.labelEN;
+const itemDesc  = (item: { descTR: string; descEN: string }) => lang === 'tr' ? item.descTR : item.descEN;
+
+// All section IDs in order (for IntersectionObserver)
+const allSectionIds = NAV_GROUPS.flatMap(g => g.items.map(i => i.id));
+// Map: section ID → group ID (for active state propagation)
+const sectionToGroup: Record<string, string> = {};
+NAV_GROUPS.forEach(g => g.items.forEach(i => { sectionToGroup[i.id] = g.id; }));
+---
+
+<!-- Scroll progress bar -->
+<div
+  id="scroll-progress"
+  aria-hidden="true"
+  class="fixed top-0 left-0 z-[60] h-0.5 w-0 transition-none"
+  style="background-color: var(--brand-accent);"
+></div>
+
+<header
+  id="site-header"
+  class="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/90 backdrop-blur-md"
+>
+  <div class="mx-auto flex h-16 max-w-screen-xl items-center justify-between px-6">
+
+    <!-- Logo -->
+    <a
+      href={`/${lang}`}
+      class="flex shrink-0 items-center gap-2 font-heading text-lg font-semibold leading-none"
+      style="color: var(--brand-primary);"
+      aria-label={companyName}
+    >
+      <img
+        src={company.logo}
+        alt={companyName}
+        width="32"
+        height="32"
+        class="h-8 w-auto"
+        onerror="this.style.display='none'"
+      />
+      <span class="hidden sm:inline">{companyName}</span>
+    </a>
+
+    <!-- ── Desktop navigation ────────────────────────────────────────────── -->
+    <nav aria-label={lang === 'tr' ? 'Ana menü' : 'Main navigation'} class="hidden lg:block">
+      <ul class="flex items-center gap-0.5" role="menubar">
+        {NAV_GROUPS.map((group) => {
+          const label = groupLabel(group);
+          const isSingle = group.items.length === 1;
+          const singleItem = isSingle ? group.items[0] : null;
+
+          return (
+            <li class="nav-group relative" data-group-id={group.id} role="none">
+              {isSingle ? (
+                /* Direct link for single-item groups */
+                <a
+                  href={`#${singleItem!.id}`}
+                  data-nav-link={singleItem!.id}
+                  data-group-link={group.id}
+                  class="nav-trigger flex items-center gap-1 rounded-md px-3.5 py-2 text-sm font-medium text-gray-600 transition-colors duration-150 hover:text-[var(--brand-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-primary)] focus-visible:ring-offset-1"
+                  role="menuitem"
+                >
+                  {label}
+                </a>
+              ) : (
+                /* Dropdown trigger */
+                <button
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  data-dropdown-trigger={group.id}
+                  class="nav-trigger flex items-center gap-1 rounded-md px-3.5 py-2 text-sm font-medium text-gray-600 transition-colors duration-150 hover:text-[var(--brand-primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-primary)] focus-visible:ring-offset-1"
+                  role="menuitem"
+                  aria-label={lang === 'tr' ? `${label} menüsü` : `${label} menu`}
+                >
+                  {label}
+                  <!-- Chevron -->
+                  <svg
+                    class="nav-chevron h-3.5 w-3.5 shrink-0 text-gray-400 transition-transform duration-200"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M2 4l4 4 4-4"/>
+                  </svg>
+                </button>
+              )}
+
+              {/* Active underline indicator (shared for both link & button variants) */}
+              <span
+                class="nav-group-indicator pointer-events-none absolute bottom-1 left-3.5 right-3.5 h-0.5 scale-x-0 rounded-full transition-transform duration-200"
+                style="background-color: var(--brand-accent);"
+                aria-hidden="true"
+              ></span>
+
+              {/* Dropdown panel (only for multi-item groups) */}
+              {!isSingle && (
+                <div
+                  role="menu"
+                  aria-label={label}
+                  data-dropdown-panel={group.id}
+                  class="dropdown-panel pointer-events-none absolute left-1/2 top-[calc(100%+8px)] w-64 -translate-x-1/2 rounded-xl border border-gray-100 bg-white p-1.5 shadow-lg shadow-gray-900/8"
+                >
+                  {group.items.map((item) => (
+                    <a
+                      href={`#${item.id}`}
+                      data-nav-link={item.id}
+                      data-group-link={group.id}
+                      role="menuitem"
+                      class="dropdown-item group flex flex-col rounded-lg px-4 py-3 transition-colors duration-150 hover:bg-[color-mix(in_srgb,var(--brand-primary)_5%,transparent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--brand-primary)]"
+                    >
+                      <span
+                        class="text-sm font-semibold text-gray-800 transition-colors duration-150 group-hover:text-[var(--brand-primary)]"
+                      >
+                        {navLabel(item.id)}
+                      </span>
+                      <span class="mt-0.5 text-xs leading-relaxed text-gray-400">
+                        {itemDesc(item)}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <!-- Right side: year badge + language switcher + hamburger -->
+    <div class="flex items-center gap-3">
+      <span class="hidden sm:inline-block rounded-full border border-gray-200 px-3 py-0.5 text-xs font-medium text-gray-400">
+        {company.reportYear}
+      </span>
+
+      {features.languageSwitcher && (
+        <a
+          href={altLangUrl}
+          class="rounded-md border border-gray-200 px-3 py-1 text-xs font-semibold tracking-wide text-gray-600 transition-colors duration-150 hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)]"
+          aria-label={lang === 'tr' ? 'Switch to English' : "Türkçe'ye geç"}
+        >
+          {altLangLabel}
+        </a>
+      )}
+
+      <!-- Hamburger (mobile only) -->
+      <button
+        id="menu-toggle"
+        type="button"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label={lang === 'tr' ? 'Menüyü aç' : 'Open menu'}
+        class="relative flex h-9 w-9 items-center justify-center rounded-md text-gray-600 transition-colors hover:bg-gray-100 lg:hidden"
+      >
+        <span class="hamburger-icon flex flex-col gap-1.5" aria-hidden="true">
+          <span class="block h-0.5 w-5 rounded-full bg-current transition-all duration-300"></span>
+          <span class="block h-0.5 w-5 rounded-full bg-current transition-all duration-300"></span>
+          <span class="block h-0.5 w-5 rounded-full bg-current transition-all duration-300"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ── Mobile full-screen overlay ──────────────────────────────────────────── -->
+<div
+  id="mobile-menu"
+  role="dialog"
+  aria-modal="true"
+  aria-label={lang === 'tr' ? 'Menü' : 'Menu'}
+  class="mobile-menu fixed inset-0 z-40 flex flex-col overflow-y-auto bg-white px-6 py-8 lg:hidden"
+  style="opacity:0;pointer-events:none;transform:translateY(-8px);"
+>
+  <!-- Close row -->
+  <div class="flex shrink-0 items-center justify-between">
+    <span class="font-heading text-lg font-semibold" style="color:var(--brand-primary);">{companyName}</span>
+    <button
+      id="menu-close"
+      type="button"
+      aria-label={lang === 'tr' ? 'Menüyü kapat' : 'Close menu'}
+      class="flex h-9 w-9 items-center justify-center rounded-md text-gray-600 hover:bg-gray-100"
+    >
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile accordion nav -->
+  <nav aria-label={lang === 'tr' ? 'Mobil menü' : 'Mobile navigation'} class="mt-8 flex-1">
+    <ul class="flex flex-col gap-1">
+      {NAV_GROUPS.map((group) => {
+        const label = groupLabel(group);
+        const isSingle = group.items.length === 1;
+        const singleItem = isSingle ? group.items[0] : null;
+
+        return (
+          <li class="mobile-group" data-mobile-group={group.id}>
+            {isSingle ? (
+              <a
+                href={`#${singleItem!.id}`}
+                data-mobile-nav-link={singleItem!.id}
+                class="flex items-center justify-between rounded-xl px-4 py-3.5 text-base font-semibold text-gray-800 transition-colors hover:bg-gray-50"
+                style={`color: inherit;`}
+              >
+                {label}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                  <path d="M6 3l5 5-5 5"/>
+                </svg>
+              </a>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  aria-expanded="false"
+                  data-mobile-trigger={group.id}
+                  class="mobile-group-trigger flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left text-base font-semibold text-gray-800 transition-colors hover:bg-gray-50"
+                >
+                  {label}
+                  <svg
+                    class="mobile-chevron h-4 w-4 shrink-0 text-gray-400 transition-transform duration-200"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M2 4l4 4 4-4"/>
+                  </svg>
+                </button>
+                <ul
+                  class="mobile-group-items overflow-hidden"
+                  style="max-height:0;"
+                  aria-label={label}
+                >
+                  {group.items.map((item) => (
+                    <li>
+                      <a
+                        href={`#${item.id}`}
+                        data-mobile-nav-link={item.id}
+                        class="flex flex-col rounded-lg px-6 py-3 transition-colors hover:bg-gray-50"
+                      >
+                        <span class="text-sm font-semibold" style="color:var(--brand-primary);">{navLabel(item.id)}</span>
+                        <span class="mt-0.5 text-xs text-gray-400">{itemDesc(item)}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  </nav>
+
+  <!-- Language switcher -->
+  {features.languageSwitcher && (
+    <div class="shrink-0 border-t border-gray-100 pt-6">
+      <a
+        href={altLangUrl}
+        class="flex w-full items-center justify-center rounded-xl border border-gray-200 py-3 text-sm font-semibold text-gray-600 hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)]"
+      >
+        {altLangLabel}
+      </a>
+    </div>
+  )}
+</div>
+
+<style>
+  /* Desktop dropdown panel: opacity + lift transition */
+  .dropdown-panel {
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+  .dropdown-panel.is-open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Mobile menu panel */
+  .mobile-menu {
+    transition: opacity 250ms ease, transform 250ms ease;
+  }
+
+  /* Mobile accordion max-height animation */
+  .mobile-group-items {
+    transition: max-height 250ms ease;
+  }
+
+  /* Active group trigger text color */
+  .nav-group.is-active > .nav-trigger {
+    color: var(--brand-primary);
+  }
+  .nav-group.is-active .nav-group-indicator {
+    transform: scaleX(1);
+  }
+
+  /* Chevron rotation when dropdown open */
+  [data-dropdown-trigger][aria-expanded="true"] .nav-chevron {
+    transform: rotate(180deg);
+    color: var(--brand-primary);
+  }
+  [data-dropdown-trigger][aria-expanded="true"] {
+    color: var(--brand-primary);
+  }
+
+  /* Mobile chevron rotation */
+  [data-mobile-trigger][aria-expanded="true"] .mobile-chevron {
+    transform: rotate(180deg);
+    color: var(--brand-primary);
+  }
+  [data-mobile-trigger][aria-expanded="true"] {
+    color: var(--brand-primary);
+  }
+</style>
+
+<script define:vars={{ sectionToGroup }}>
+  // ── Scroll progress ───────────────────────────────────────────────────────
+  const progressBar = document.getElementById('scroll-progress');
+  function updateProgress() {
+    if (!progressBar) return;
+    const pct = document.documentElement.scrollHeight - window.innerHeight > 0
+      ? (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+      : 0;
+    progressBar.style.width = `${pct}%`;
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // ── Desktop dropdowns ─────────────────────────────────────────────────────
+  const groups = document.querySelectorAll('.nav-group[data-group-id]');
+
+  function openDropdown(groupId) {
+    const group = document.querySelector(`.nav-group[data-group-id="${groupId}"]`);
+    if (!group) return;
+    const trigger = group.querySelector('[data-dropdown-trigger]');
+    const panel   = group.querySelector('[data-dropdown-panel]');
+    if (!trigger || !panel) return;
+    trigger.setAttribute('aria-expanded', 'true');
+    panel.classList.add('is-open');
+  }
+
+  function closeDropdown(groupId) {
+    const group = document.querySelector(`.nav-group[data-group-id="${groupId}"]`);
+    if (!group) return;
+    const trigger = group.querySelector('[data-dropdown-trigger]');
+    const panel   = group.querySelector('[data-dropdown-panel]');
+    if (!trigger || !panel) return;
+    trigger.setAttribute('aria-expanded', 'false');
+    panel.classList.remove('is-open');
+  }
+
+  function closeAllDropdowns() {
+    groups.forEach(g => {
+      const gid = g.getAttribute('data-group-id');
+      if (gid) closeDropdown(gid);
+    });
+  }
+
+  // Hover: open on mouseenter with small delay, close on mouseleave
+  let hoverTimer = null;
+  groups.forEach(group => {
+    const groupId = group.getAttribute('data-group-id');
+    if (!group.querySelector('[data-dropdown-trigger]')) return; // single-item groups: skip
+
+    group.addEventListener('mouseenter', () => {
+      clearTimeout(hoverTimer);
+      closeAllDropdowns();
+      openDropdown(groupId);
+    });
+    group.addEventListener('mouseleave', () => {
+      hoverTimer = setTimeout(() => closeDropdown(groupId), 120);
+    });
+  });
+
+  // Button click: toggle
+  document.querySelectorAll('[data-dropdown-trigger]').forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const groupId = trigger.getAttribute('data-dropdown-trigger');
+      const isOpen  = trigger.getAttribute('aria-expanded') === 'true';
+      closeAllDropdowns();
+      if (!isOpen) openDropdown(groupId);
+    });
+
+    // Arrow-down from trigger → open and focus first item
+    trigger.addEventListener('keydown', (e) => {
+      const groupId = trigger.getAttribute('data-dropdown-trigger');
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        openDropdown(groupId);
+        const panel = document.querySelector(`[data-dropdown-panel="${groupId}"]`);
+        panel?.querySelector('a')?.focus();
+      }
+      if (e.key === 'Escape') closeDropdown(groupId);
+    });
+  });
+
+  // Keyboard navigation within dropdown panels
+  document.querySelectorAll('[data-dropdown-panel]').forEach(panel => {
+    panel.addEventListener('keydown', (e) => {
+      const groupId = panel.getAttribute('data-dropdown-panel');
+      const items   = Array.from(panel.querySelectorAll('a'));
+      const idx     = items.indexOf(document.activeElement);
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        items[(idx + 1) % items.length]?.focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        items[(idx - 1 + items.length) % items.length]?.focus();
+      } else if (e.key === 'Escape' || e.key === 'Tab') {
+        closeDropdown(groupId);
+        document.querySelector(`[data-dropdown-trigger="${groupId}"]`)?.focus();
+      }
+    });
+  });
+
+  // Click outside → close all
+  document.addEventListener('click', closeAllDropdowns);
+
+  // Click on any nav link → close all
+  document.querySelectorAll('[data-nav-link]').forEach(link => {
+    link.addEventListener('click', closeAllDropdowns);
+  });
+
+  // ── Mobile menu ───────────────────────────────────────────────────────────
+  const toggle    = document.getElementById('menu-toggle');
+  const closeBtn  = document.getElementById('menu-close');
+  const mobileNav = document.getElementById('mobile-menu');
+
+  function openMobileMenu() {
+    if (!mobileNav || !toggle) return;
+    mobileNav.style.opacity       = '1';
+    mobileNav.style.pointerEvents = 'auto';
+    mobileNav.style.transform     = 'translateY(0)';
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow  = 'hidden';
+    closeBtn?.focus();
+  }
+
+  function closeMobileMenu() {
+    if (!mobileNav || !toggle) return;
+    mobileNav.style.opacity       = '0';
+    mobileNav.style.pointerEvents = 'none';
+    mobileNav.style.transform     = 'translateY(-8px)';
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow  = '';
+    toggle.focus();
+  }
+
+  toggle?.addEventListener('click', openMobileMenu);
+  closeBtn?.addEventListener('click', closeMobileMenu);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+      closeMobileMenu();
+    }
+  });
+
+  // Mobile nav links close the menu
+  mobileNav?.querySelectorAll('[data-mobile-nav-link]').forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+  // ── Mobile accordion ──────────────────────────────────────────────────────
+  document.querySelectorAll('[data-mobile-trigger]').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const groupId  = trigger.getAttribute('data-mobile-trigger');
+      const groupEl  = document.querySelector(`.mobile-group[data-mobile-group="${groupId}"]`);
+      const itemsEl  = groupEl?.querySelector('.mobile-group-items');
+      if (!itemsEl) return;
+
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+
+      // Close all other groups first
+      document.querySelectorAll('[data-mobile-trigger]').forEach(t => {
+        if (t === trigger) return;
+        const gid = t.getAttribute('data-mobile-trigger');
+        const g   = document.querySelector(`.mobile-group[data-mobile-group="${gid}"]`);
+        const el  = g?.querySelector('.mobile-group-items');
+        if (el) el.style.maxHeight = '0';
+        t.setAttribute('aria-expanded', 'false');
+      });
+
+      if (isOpen) {
+        itemsEl.style.maxHeight = '0';
+        trigger.setAttribute('aria-expanded', 'false');
+      } else {
+        itemsEl.style.maxHeight = itemsEl.scrollHeight + 'px';
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // ── Active section highlighting ───────────────────────────────────────────
+  // sectionToGroup is passed in from Astro via define:vars
+  const navGroups = document.querySelectorAll('.nav-group[data-group-id]');
+
+  function setActiveGroup(groupId) {
+    navGroups.forEach(g => {
+      if (g.getAttribute('data-group-id') === groupId) {
+        g.classList.add('is-active');
+      } else {
+        g.classList.remove('is-active');
+      }
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const groupId = sectionToGroup[entry.target.id];
+            if (groupId) setActiveGroup(groupId);
+          }
+        });
+      },
+      { rootMargin: '-25% 0px -65% 0px' }
+    );
+
+    Object.keys(sectionToGroup).forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  }
+</script>

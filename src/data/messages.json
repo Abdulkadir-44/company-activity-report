@@ -1,0 +1,28 @@
+{
+  "messages": [
+    {
+      "id": "chairman",
+      "nameTR": "Ahmet Yılmaz",
+      "nameEN": "Ahmet Yılmaz",
+      "titleTR": "Yönetim Kurulu Başkanı",
+      "titleEN": "Chairman of the Board",
+      "photo": "/assets/photos/exec-chair.jpg",
+      "pullQuoteTR": "2024 yılında sergilediğimiz performans, güçlü kurumsal yapımızın ve ekibimizin kararlılığının bir yansımasıdır.",
+      "pullQuoteEN": "The performance we delivered in 2024 reflects the strength of our corporate structure and the determination of our team.",
+      "messageTR": "Değerli paydaşlarımız, 2024 yılı Acme Kurumsal için güçlü büyümemizi sürdürdüğümüz, operasyonel verimliliğimizi artırdığımız ve sürdürülebilirlik hedeflerimizde önemli adımlar attığımız bir yıl oldu. Net satışlarımız bir önceki yıla göre yüzde yirmi altı artışla 12,45 milyar TL'ye ulaşırken, FAVÖK marjımız da sektörün üzerinde bir performansla yüzde 18,8 olarak gerçekleşti.\n\nYönetim Kurulu olarak, şirketimizin uzun vadeli değer yaratma kapasitesine olan güvenimiz tamdır. Güçlü bilanço yapımız, artan nakit akışlarımız ve disiplinli yatırım stratejimiz, önümüzdeki dönemde de büyümeyi desteklemeye devam edecektir.\n\nBu başarıyı mümkün kılan çalışanlarımıza, güvenini hiç eksik etmeyen müşterilerimize ve iş ortaklarımıza teşekkür ederim.",
+      "messageEN": "Dear stakeholders, 2024 was a year in which Acme Corporation continued its strong growth, improved its operational efficiency, and made significant strides toward its sustainability targets. Net revenue grew 26% year-on-year to TRY 12.45 billion, while our EBITDA margin reached 18.8%, above the sector average.\n\nAs a Board, our confidence in the company's long-term value creation capacity is unwavering. Our strong balance sheet, growing cash flows, and disciplined investment strategy will continue to support growth in the period ahead.\n\nI would like to thank our employees who made this success possible, our customers who have never wavered in their trust, and our business partners."
+    },
+    {
+      "id": "ceo",
+      "nameTR": "Ayşe Kaya",
+      "nameEN": "Ayşe Kaya",
+      "titleTR": "Genel Müdür",
+      "titleEN": "Chief Executive Officer",
+      "photo": "/assets/photos/exec-ceo.jpg",
+      "pullQuoteTR": "E-ticarette %39 büyüme ve 487 mağazamızla 2024'ü rekorlarla kapattık; 2025'e çok daha güçlü giriyoruz.",
+      "pullQuoteEN": "With 39% growth in e-commerce and 487 stores, we closed 2024 with records across the board — and we enter 2025 stronger than ever.",
+      "messageTR": "2024 yılında gerçekleştirdiğimiz 64 yeni mağaza açılışı, e-ticaret kanalımızdaki güçlü ivme ve artan müşteri sadakati, şirketimizin stratejik dönüşüm sürecinin somut meyveleridir. Online satışlarımız toplam gelirin yüzde kırkbirini oluşturarak yeni bir rekor kırarken, ortalama sepet tutarı da bir önceki yıla göre yüzde on dört artış gösterdi.\n\n12.840 çalışanımızla birlikte, müşterilerimize her kanalda en iyi deneyimi sunmaya devam ettik. Lojistik altyapımızı güçlendirdik, tedarik zinciri verimliliğimizi artırdık ve teknoloji yatırımlarımızla kişiselleştirilmiş müşteri deneyimini daha da ileri taşıdık.\n\nSürdürülebilirlik alanında da anlamlı adımlar attık. Yenilenebilir enerji kullanımımız yüzde kırk yediye yükseli, karbon salınımımızı ise bir önceki yıla göre yüzde sekiz azalttık. Bu ilerleme, çevresel taahhütlerimize ne denli ciddi baktığımızın bir göstergesidir.",
+      "messageEN": "The 64 new store openings we completed in 2024, the strong momentum in our e-commerce channel, and growing customer loyalty are the tangible fruits of our strategic transformation. Online sales reached 41% of total revenue — a new record — while the average basket size grew 14% year-on-year.\n\nAlongside our 12,840 employees, we continued to deliver the best possible experience to our customers across every channel. We strengthened our logistics infrastructure, improved supply chain efficiency, and advanced personalised customer experiences through technology investment.\n\nWe also made meaningful progress on sustainability. Renewable energy usage rose to 47%, and we reduced carbon emissions by 8% compared to the prior year — a testament to how seriously we take our environmental commitments."
+    }
+  ]
+}

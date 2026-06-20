@@ -1,0 +1,77 @@
+{
+  "nav": {
+    "about":          "Hakkımızda",
+    "message":        "Mesajlar",
+    "kpi":            "Temel Göstergeler",
+    "financial":      "Finansal Performans",
+    "operational":    "Operasyonel Performans",
+    "governance":     "Kurumsal Yönetim",
+    "sustainability": "Sürdürülebilirlik",
+    "people":         "İnsan Kaynakları",
+    "downloads":      "İndirmeler"
+  },
+  "hero": {
+    "annualReport":   "Faaliyet Raporu",
+    "exploreReport":  "Raporu İncele",
+    "downloadPdf":    "PDF İndir",
+    "scrollDown":     "Aşağı Kaydır"
+  },
+  "kpi": {
+    "sectionTitle":   "Temel Göstergeler",
+    "yoyIncrease":    "artış",
+    "yoyDecrease":    "azalış",
+    "vsLastYear":     "geçen yıla göre"
+  },
+  "financial": {
+    "sectionTitle":   "Finansal Performans",
+    "year":           "Yıl",
+    "change":         "Değişim"
+  },
+  "operational": {
+    "sectionTitle":   "Operasyonel Performans",
+    "stores":         "Mağaza",
+    "newOpenings":    "yeni açılış"
+  },
+  "governance": {
+    "sectionTitle":   "Kurumsal Yönetim",
+    "independent":    "Bağımsız Üye",
+    "committees":     "Komiteler",
+    "readBio":        "Biyografiyi Oku",
+    "close":          "Kapat"
+  },
+  "sustainability": {
+    "sectionTitle":   "Sürdürülebilirlik",
+    "target":         "Hedef",
+    "actual":         "Gerçekleşen",
+    "targetYear":     "Hedef Yıl"
+  },
+  "people": {
+    "sectionTitle":   "İnsan Kaynakları",
+    "employees":      "Çalışan",
+    "female":         "Kadın",
+    "male":           "Erkek",
+    "avgAge":         "Ort. Yaş",
+    "avgTenure":      "Ort. Kıdem (Yıl)",
+    "trainingHours":  "Eğitim Saati",
+    "perEmployee":    "kişi başı"
+  },
+  "downloads": {
+    "sectionTitle":   "Raporlar & Belgeler",
+    "download":       "İndir",
+    "fileSize":       "Dosya Boyutu",
+    "format":         "Format"
+  },
+  "footer": {
+    "disclaimer":     "Bu site yalnızca bilgilendirme amaçlıdır. Sunulan veriler bağımsız denetimden geçmiştir.",
+    "allRights":      "Tüm hakları saklıdır."
+  },
+  "language": {
+    "switchTo":       "EN"
+  },
+  "common": {
+    "learnMore":      "Daha Fazla",
+    "viewAll":        "Tümünü Gör",
+    "previous":       "Önceki",
+    "next":           "Sonraki"
+  }
+}

@@ -1,0 +1,127 @@
+---
+import type { Locale } from '@/utils/i18n';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import ProgressBar from '@/components/ui/ProgressBar.astro';
+import esg from '@/data/esg.json';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+
+const eyebrow = lang === 'tr' ? 'Sürdürülebilirlik'           : 'Sustainability';
+const title   = lang === 'tr' ? 'ESG Taahhütlerimiz'          : 'Our ESG Commitments';
+const subtitle= lang === 'tr'
+  ? 'Çevre, toplum ve yönetim alanlarında sorumlu bir gelecek inşa ediyoruz.'
+  : 'We are building a responsible future across environmental, social, and governance dimensions.';
+
+const envLabel     = lang === 'tr' ? 'Çevresel Metrikler'       : 'Environmental Metrics';
+const socialLabel  = lang === 'tr' ? 'Sosyal Etki'              : 'Social Impact';
+const projectLabel = lang === 'tr' ? 'Sosyal Sorumluluk Projeleri' : 'Social Responsibility Projects';
+
+const ENV_ICONS: Record<string, string> = {
+  leaf:    'M17 8C8 10 5.9 16.17 3.82 19.82L5.6 21.6C7 19 9 17 11 16c-1 2-1 4 0 6 2-2 3-4 3-6 1 1 1 3 1 5 2-3 3-5 2-9 1 1 2 3 2 5 2-4 1-8-2-13z',
+  sun:     'M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41 M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10z',
+  droplet: 'M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z',
+  recycle: 'M7 19H4.815a1.83 1.83 0 0 1-1.57-2.755L7.08 12M7 19l2-2M7 19H2m5 0v-4M17 5h2.185a1.83 1.83 0 0 1 1.57 2.755L16.92 12M17 5l-2 2M17 5h5M17 5v4M9 3l-2 2 2 2M15 21l2-2-2-2',
+};
+---
+
+<div>
+  <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
+
+  <div class="grid gap-10 lg:grid-cols-2">
+
+    <!-- Left: Environmental metrics with ProgressBars -->
+    <div>
+      <h3 class="mb-6 text-xs font-semibold uppercase tracking-widest text-gray-400">{envLabel}</h3>
+      <div class="space-y-8">
+        {esg.environmental.map(metric => {
+          const label = lang === 'tr' ? metric.labelTR : metric.labelEN;
+          const path  = ENV_ICONS[metric.icon] ?? '';
+          return (
+            <div class="rounded-2xl bg-white p-6 ring-1 ring-gray-100">
+              <div class="mb-4 flex items-center gap-3">
+                <div
+                  class="flex h-9 w-9 items-center justify-center rounded-xl"
+                  style="background-color: color-mix(in srgb, var(--brand-primary) 8%, transparent); color: var(--brand-primary);"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d={path}/>
+                  </svg>
+                </div>
+                <div class="flex flex-1 items-center justify-between">
+                  <span class="text-sm font-medium text-gray-700">{label}</span>
+                  <span
+                    class={`flex items-center gap-0.5 rounded-full px-2 py-0.5 text-xs font-semibold ${
+                      metric.yoyChange < 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+                    }`}
+                  >
+                    {metric.yoyChange > 0 ? '+' : ''}{metric.yoyChange}% YoY
+                  </span>
+                </div>
+              </div>
+              <ProgressBar
+                label={`${metric.value.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US')} ${metric.unit}`}
+                actual={metric.value}
+                target={metric.target}
+                unit=""
+                targetYear={metric.targetYear}
+                lang={lang}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+
+    <!-- Right: Social impact + projects -->
+    <div class="flex flex-col gap-8">
+
+      <!-- Social stats -->
+      <div>
+        <h3 class="mb-6 text-xs font-semibold uppercase tracking-widest text-gray-400">{socialLabel}</h3>
+        <div class="grid grid-cols-2 gap-4">
+          {esg.social.map(stat => {
+            const label   = lang === 'tr' ? stat.labelTR   : stat.labelEN;
+            const caption = lang === 'tr' ? stat.captionTR : stat.captionEN;
+            const display = stat.currency
+              ? `${(stat.value / 1e6).toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US', { maximumFractionDigits: 1 })} ${lang === 'tr' ? 'Myn' : 'M'} ${stat.currency === 'TRY' ? '₺' : stat.currency}`
+              : stat.value.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US');
+            return (
+              <div class="rounded-2xl p-6 text-white" style="background-color: var(--brand-primary);">
+                <p class="font-heading text-3xl font-semibold">{display}</p>
+                <p class="mt-1 text-sm font-medium">{label}</p>
+                <p class="mt-2 text-xs text-white/60 leading-relaxed">{caption}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <!-- Social projects -->
+      <div>
+        <h3 class="mb-4 text-xs font-semibold uppercase tracking-widest text-gray-400">{projectLabel}</h3>
+        <div class="flex flex-col gap-4">
+          {esg.projects.map(proj => {
+            const ptitle = lang === 'tr' ? proj.titleTR : proj.titleEN;
+            const pdesc  = lang === 'tr' ? proj.descriptionTR : proj.descriptionEN;
+            return (
+              <div class="overflow-hidden rounded-2xl bg-white ring-1 ring-gray-100">
+                <div class="flex gap-0">
+                  <div
+                    class="w-1.5 shrink-0 rounded-l-2xl"
+                    style="background-color: var(--brand-accent);"
+                    aria-hidden="true"
+                  ></div>
+                  <div class="p-5">
+                    <p class="font-heading text-base font-semibold" style="color: var(--brand-primary);">{ptitle}</p>
+                    <p class="mt-1.5 text-sm leading-relaxed text-gray-500">{pdesc}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

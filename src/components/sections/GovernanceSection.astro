@@ -1,0 +1,68 @@
+---
+import type { Locale } from '@/utils/i18n';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import GovernanceCard from '@/components/content/GovernanceCard.astro';
+import governance from '@/data/governance.json';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+
+const eyebrow = lang === 'tr' ? 'Kurumsal Yönetim'           : 'Corporate Governance';
+const title   = lang === 'tr' ? 'Yönetim Kurulumuz'          : 'Our Board of Directors';
+const subtitle= lang === 'tr'
+  ? 'Şeffaflık, hesap verebilirlik ve etik iş anlayışı temel yönetim ilkelerimizdir.'
+  : 'Transparency, accountability, and ethical business conduct are the cornerstones of our governance.';
+
+// Build committee label lookup
+const committeeLabels = Object.fromEntries(
+  governance.committees.map(c => [c.id, lang === 'tr' ? c.labelTR : c.labelEN])
+);
+---
+
+<div>
+  <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
+
+  <!-- Board grid -->
+  <div class="mb-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    {governance.board.map(member => (
+      <GovernanceCard
+        name={lang === 'tr' ? member.nameTR : member.nameEN}
+        title={lang === 'tr' ? member.titleTR : member.titleEN}
+        photo={member.photo}
+        appointmentYear={member.appointmentYear}
+        independent={member.independent}
+        committees={member.committees}
+        bio={lang === 'tr' ? member.bioTR : member.bioEN}
+        committeeLabels={committeeLabels}
+        lang={lang}
+      />
+    ))}
+  </div>
+
+  <!-- Committee structure -->
+  <div class="rounded-2xl bg-white p-8 ring-1 ring-gray-100">
+    <h3 class="mb-6 font-heading text-lg font-semibold" style="color: var(--brand-primary);">
+      {lang === 'tr' ? 'Komite Yapısı' : 'Committee Structure'}
+    </h3>
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {governance.committees.map(c => {
+        const label   = lang === 'tr' ? c.labelTR : c.labelEN;
+        const members = governance.board.filter(b => b.committees.includes(c.id));
+        return (
+          <div class="rounded-xl p-4" style="background-color: var(--brand-surface);">
+            <p class="mb-3 text-xs font-semibold uppercase tracking-wider" style="color: var(--brand-primary);">
+              {label}
+            </p>
+            <ul class="space-y-1">
+              {members.map(m => (
+                <li class="text-sm text-gray-600">
+                  {lang === 'tr' ? m.nameTR : m.nameEN}
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</div>

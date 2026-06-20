@@ -1,0 +1,105 @@
+---
+import type { Locale } from '@/utils/i18n';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import BarChart from '@/components/charts/BarChart';
+import DonutChart from '@/components/charts/DonutChart';
+import DataTable from '@/components/ui/DataTable.astro';
+import financial from '@/data/financial.json';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+
+const eyebrow = lang === 'tr' ? 'Finansal Performans'     : 'Financial Performance';
+const title   = lang === 'tr' ? 'Güçlü Finansal Sonuçlar' : 'Strong Financial Results';
+const subtitle= lang === 'tr'
+  ? `${financial.revenueChart.years.at(-1)} yılında net satışlarımız, disiplinli büyüme stratejimizin yansıması olarak güçlü artışını sürdürdü.`
+  : `In ${financial.revenueChart.years.at(-1)}, our net revenue continued its strong growth trajectory, reflecting our disciplined growth strategy.`;
+
+// Revenue chart data
+const revenueTitle  = lang === 'tr' ? financial.revenueChart.labelTR   : financial.revenueChart.labelEN;
+const ebitdaTitle   = lang === 'tr' ? financial.ebitdaChart.labelTR    : financial.ebitdaChart.labelEN;
+const donutTitle    = lang === 'tr' ? financial.costBreakdown.labelTR  : financial.costBreakdown.labelEN;
+const tableTitle    = lang === 'tr' ? financial.incomeStatement.titleTR : financial.incomeStatement.titleEN;
+
+// DataTable transform
+const tableColumns = [
+  { key: 'label', label: lang === 'tr' ? 'Kalem' : 'Item', align: 'left' as const },
+  { key: '2023',  label: '2023', align: 'right' as const },
+  { key: '2024',  label: '2024', align: 'right' as const },
+];
+const tableRows = financial.incomeStatement.rows.map(row => ({
+  label:     lang === 'tr' ? row.labelTR : row.labelEN,
+  '2023':    row['2023'],
+  '2024':    row['2024'],
+  highlight: row.highlight,
+}));
+
+// Donut segments
+const donutSegments = financial.costBreakdown.items.map(item => ({
+  label: lang === 'tr' ? item.labelTR : item.labelEN,
+  value: item.value,
+}));
+---
+
+<div>
+  <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
+
+  <!-- Revenue trend chart (full width) -->
+  <div class="mb-10 rounded-2xl bg-white p-8 ring-1 ring-gray-100">
+    <h3 class="mb-6 font-heading text-lg font-semibold" style="color: var(--brand-primary);">{revenueTitle}</h3>
+    <BarChart
+      client:visible
+      id="revenue-trend"
+      title={revenueTitle}
+      labels={financial.revenueChart.years.map(String)}
+      datasets={[{
+        label: lang === 'tr' ? 'Net Satışlar (Myr TL)' : 'Net Revenue (Bn TRY)',
+        data: financial.revenueChart.values,
+      }]}
+      lang={lang}
+      yAxisLabel={lang === 'tr' ? 'Myr TL' : 'Bn TRY'}
+    />
+  </div>
+
+  <!-- EBITDA + Cost breakdown (two columns) -->
+  <div class="mb-10 grid gap-6 lg:grid-cols-2">
+    <div class="rounded-2xl bg-white p-8 ring-1 ring-gray-100">
+      <h3 class="mb-6 font-heading text-lg font-semibold" style="color: var(--brand-primary);">{ebitdaTitle}</h3>
+      <BarChart
+        client:visible
+        id="ebitda-trend"
+        title={ebitdaTitle}
+        labels={financial.ebitdaChart.years.map(String)}
+        datasets={[{
+          label: lang === 'tr' ? 'FAVÖK (Myr TL)' : 'EBITDA (Bn TRY)',
+          data: financial.ebitdaChart.ebitdaValues,
+        }]}
+        lang={lang}
+        yAxisLabel={lang === 'tr' ? 'Myr TL' : 'Bn TRY'}
+      />
+    </div>
+
+    <div class="rounded-2xl bg-white p-8 ring-1 ring-gray-100">
+      <h3 class="mb-6 font-heading text-lg font-semibold" style="color: var(--brand-primary);">{donutTitle}</h3>
+      <DonutChart
+        client:visible
+        id="cost-breakdown"
+        title={donutTitle}
+        segments={donutSegments}
+        lang={lang}
+        unit="%"
+      />
+    </div>
+  </div>
+
+  <!-- Income statement table (full width) -->
+  <div class="rounded-2xl bg-white p-8 ring-1 ring-gray-100">
+    <DataTable
+      title={tableTitle}
+      columns={tableColumns}
+      rows={tableRows}
+      footnote={financial.incomeStatement.footnote}
+      caption={tableTitle}
+    />
+  </div>
+</div>

@@ -1,0 +1,111 @@
+---
+import type { Locale } from '@/utils/i18n';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+import config from '@/data/config.json';
+import '@/styles/global.css';
+
+interface Props {
+  lang: Locale;
+  title: string;
+  description: string;
+  canonicalUrl?: string;
+}
+
+const { lang, title, description, canonicalUrl } = Astro.props;
+const { company, seo, social } = config;
+
+const pageTitle = `${title} ${lang === 'tr' ? seo.titleSuffixTR : seo.titleSuffix}`;
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? '';
+const ogImage = `${siteUrl}${seo.ogImage}`;
+
+/*
+ * CSS variable bridge:
+ * Hex values from config.json are set as inline style on <html>.
+ * They cascade to all descendants as CSS custom properties.
+ * Tailwind's @theme block maps --color-primary → var(--brand-primary), etc.
+ * Chart.js islands read the same vars at runtime.
+ */
+const brandStyle = [
+  `--brand-primary:${company.primaryColor}`,
+  `--brand-accent:${company.accentColor}`,
+  `--brand-surface:${company.surfaceColor}`,
+].join(';');
+
+const schemaOrg = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: pageTitle,
+  description,
+  url: canonicalUrl ?? '',
+  publisher: {
+    '@type': 'Organization',
+    name: lang === 'tr' ? company.nameTR : company.name,
+    url: company.websiteUrl,
+    logo: { '@type': 'ImageObject', url: `${siteUrl}${company.logo}` },
+  },
+};
+---
+
+<!doctype html>
+<html lang={lang} style={brandStyle}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="tr" href={`${siteUrl}/tr`} />
+    <link rel="alternate" hreflang="en" href={`${siteUrl}/en`} />
+    <link rel="alternate" hreflang="x-default" href={`${siteUrl}/tr`} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    <meta property="og:locale" content={lang === 'tr' ? 'tr_TR' : 'en_US'} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {social.twitter && <meta name="twitter:site" content={social.twitter} />}
+
+    <!-- Schema.org -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+
+  <body class="bg-white overflow-x-hidden">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--brand-primary)] focus:text-white focus:rounded"
+    >
+      {lang === 'tr' ? 'İçeriğe geç' : 'Skip to content'}
+    </a>
+
+    <Header lang={lang} />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <Footer lang={lang} />
+
+    <!-- ScrollObserver: runs after DOM is ready, fires once per element -->
+    <script>
+      import { init } from '@/utils/ScrollObserver';
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => init());
+      } else {
+        init();
+      }
+    </script>
+  </body>
+</html>

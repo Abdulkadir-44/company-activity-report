@@ -1,0 +1,62 @@
+{
+  "board": [
+    {
+      "id": "chair",
+      "nameTR": "Ahmet Yılmaz",
+      "nameEN": "Ahmet Yılmaz",
+      "titleTR": "Yönetim Kurulu Başkanı",
+      "titleEN": "Chairman of the Board",
+      "photo": "/assets/photos/board-chair.jpg",
+      "appointmentYear": 2015,
+      "independent": false,
+      "committees": [],
+      "bioTR": "Ahmet Yılmaz, 30 yılı aşkın kurumsal yönetim ve stratejik liderlik deneyimiyle 2015 yılından bu yana Yönetim Kurulu'na başkanlık etmektedir.",
+      "bioEN": "Ahmet Yılmaz has served as Chairman since 2015, bringing over 30 years of corporate governance and strategic leadership experience."
+    },
+    {
+      "id": "ceo",
+      "nameTR": "Ayşe Kaya",
+      "nameEN": "Ayşe Kaya",
+      "titleTR": "Genel Müdür & Yönetim Kurulu Üyesi",
+      "titleEN": "CEO & Board Member",
+      "photo": "/assets/photos/board-ceo.jpg",
+      "appointmentYear": 2019,
+      "independent": false,
+      "committees": [],
+      "bioTR": "Ayşe Kaya, perakende ve dijital dönüşüm alanlarında 20 yıllık deneyimiyle 2019'dan bu yana şirketi yönetmektedir.",
+      "bioEN": "Ayşe Kaya has led the company since 2019, with 20 years of experience in retail and digital transformation."
+    },
+    {
+      "id": "ind-1",
+      "nameTR": "Mehmet Demir",
+      "nameEN": "Mehmet Demir",
+      "titleTR": "Bağımsız Yönetim Kurulu Üyesi",
+      "titleEN": "Independent Board Member",
+      "photo": "/assets/photos/board-ind1.jpg",
+      "appointmentYear": 2018,
+      "independent": true,
+      "committees": ["audit", "risk"],
+      "bioTR": "Mehmet Demir, finans ve denetim alanlarında uzmanlaşmış bağımsız bir yönetim kurulu üyesidir.",
+      "bioEN": "Mehmet Demir is an independent board member specialising in finance and audit."
+    },
+    {
+      "id": "ind-2",
+      "nameTR": "Fatma Şahin",
+      "nameEN": "Fatma Şahin",
+      "titleTR": "Bağımsız Yönetim Kurulu Üyesi",
+      "titleEN": "Independent Board Member",
+      "photo": "/assets/photos/board-ind2.jpg",
+      "appointmentYear": 2021,
+      "independent": true,
+      "committees": ["corporate-governance", "sustainability"],
+      "bioTR": "Fatma Şahin, sürdürülebilirlik ve kurumsal yönetim alanlarında uluslararası deneyime sahip bağımsız bir üyedir.",
+      "bioEN": "Fatma Şahin is an independent member with international expertise in sustainability and corporate governance."
+    }
+  ],
+  "committees": [
+    { "id": "audit",                "labelTR": "Denetim Komitesi",               "labelEN": "Audit Committee" },
+    { "id": "risk",                 "labelTR": "Risk Komitesi",                  "labelEN": "Risk Committee" },
+    { "id": "corporate-governance", "labelTR": "Kurumsal Yönetim Komitesi",      "labelEN": "Corporate Governance Committee" },
+    { "id": "sustainability",       "labelTR": "Sürdürülebilirlik Komitesi",     "labelEN": "Sustainability Committee" }
+  ]
+}

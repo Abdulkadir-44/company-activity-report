@@ -1,0 +1,69 @@
+{
+  "foundingYear": 2005,
+  "storyTR": "2005 yılında İstanbul'da kurulan Acme Kurumsal, bebek ve çocuk ürünleri perakendeciliğinde Türkiye'nin öncü markalarından biri haline gelmiştir. Ailelerin güvenine dayanan büyüme modelimiz, kaliteli ürün seçkimiz ve müşteri odaklı hizmet anlayışımızla yıllar içinde sağlam bir konuma ulaştık.",
+  "storyEN": "Founded in Istanbul in 2005, Acme Corporation has grown to become one of Türkiye's leading retailers in baby and children's products. Built on the trust of families, our growth model is anchored in a curated product selection and a customer-first service philosophy.",
+  "missionTR": "Her ailenin en özel anlarına eşlik eden, kaliteli ve güvenilir ürünlerle ebeveynlerin hayatını kolaylaştırmak.",
+  "missionEN": "To make life easier for parents by accompanying families in their most precious moments with quality, trusted products.",
+  "visionTR": "Türkiye'nin en sevilen aile perakende markası olmak ve her yıl yüz binlerce yeni aileye ulaşmak.",
+  "visionEN": "To become Türkiye's most loved family retail brand, reaching hundreds of thousands of new families every year.",
+  "values": [
+    {
+      "icon": "heart",
+      "labelTR": "Aile Odaklılık",
+      "labelEN": "Family First",
+      "descTR": "Her kararımızda ailelerin refahı ve mutluluğu önceliğimizdir.",
+      "descEN": "The wellbeing and happiness of families guides every decision we make."
+    },
+    {
+      "icon": "shield",
+      "labelTR": "Güvenilirlik",
+      "labelEN": "Trust & Safety",
+      "descTR": "Sunduğumuz her ürün, titiz güvenlik ve kalite standartlarından geçer.",
+      "descEN": "Every product we offer passes rigorous safety and quality standards."
+    },
+    {
+      "icon": "lightbulb",
+      "labelTR": "Yenilikçilik",
+      "labelEN": "Innovation",
+      "descTR": "Dijital dönüşümde öncü rolümüzü sürdürerek müşteri deneyimini yeniden tanımlıyoruz.",
+      "descEN": "We continue our pioneering role in digital transformation, redefining the customer experience."
+    },
+    {
+      "icon": "leaf",
+      "labelTR": "Sürdürülebilirlik",
+      "labelEN": "Sustainability",
+      "descTR": "Gelecek nesiller için sorumlu bir iş modeli benimsiyoruz.",
+      "descEN": "We embrace a responsible business model for future generations."
+    }
+  ],
+  "businessAreas": [
+    {
+      "icon": "store",
+      "labelTR": "Mağaza Ağı",
+      "labelEN": "Retail Network",
+      "descTR": "Türkiye genelinde 487 mağaza ile ailelere hizmet veriyoruz.",
+      "descEN": "Serving families across Türkiye with 487 stores nationwide."
+    },
+    {
+      "icon": "shopping-cart",
+      "labelTR": "E-Ticaret",
+      "labelEN": "E-Commerce",
+      "descTR": "Güçlü dijital platformumuz ile online satışlarımız toplam gelirin %41'ine ulaştı.",
+      "descEN": "Our robust digital platform has grown online sales to 41% of total revenue."
+    },
+    {
+      "icon": "truck",
+      "labelTR": "Lojistik",
+      "labelEN": "Logistics",
+      "descTR": "Kendi lojistik ağımız ile hızlı ve güvenilir teslimat sağlıyoruz.",
+      "descEN": "Fast and reliable delivery through our own logistics network."
+    },
+    {
+      "icon": "tag",
+      "labelTR": "Özel Marka",
+      "labelEN": "Private Label",
+      "descTR": "Özel markamız altında yüksek kaliteli, uygun fiyatlı ürünler sunuyoruz.",
+      "descEN": "High-quality, value-for-money products under our proprietary brand."
+    }
+  ]
+}

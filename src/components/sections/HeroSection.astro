@@ -1,0 +1,162 @@
+---
+import type { Locale } from '@/utils/i18n';
+import KpiCard from '@/components/ui/KpiCard';
+import config from '@/data/config.json';
+import kpi from '@/data/kpi.json';
+import downloads from '@/data/downloads.json';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+
+const { company, features } = config;
+const companyName  = lang === 'tr' ? company.nameTR  : company.name;
+const tagline      = lang === 'tr' ? company.taglineTR : company.tagline;
+const reportLabel  = lang === 'tr' ? 'Faaliyet Raporu' : 'Annual Report';
+const exploreLabel = lang === 'tr' ? 'Raporu İncele'   : 'Explore Report';
+const downloadLabel= lang === 'tr' ? 'PDF İndir'       : 'Download PDF';
+const scrollLabel  = lang === 'tr' ? 'Aşağı Kaydır'   : 'Scroll Down';
+
+// 4 featured KPIs for the hero grid
+const heroKpis = ['revenue', 'ebitda-margin', 'stores', 'customers']
+  .map(id => kpi.items.find(i => i.id === id))
+  .filter(Boolean) as typeof kpi.items;
+
+const featuredPdf = downloads.documents.find(d => d.featured);
+const pdfTitle    = featuredPdf ? (lang === 'tr' ? featuredPdf.titleTR : featuredPdf.titleEN) : '';
+---
+
+<section
+  class="relative flex min-h-screen flex-col overflow-hidden"
+  style="background-color: var(--brand-surface);"
+  aria-label={`${companyName} ${company.reportYear} ${reportLabel}`}
+>
+  <!-- Decorative circle (brand texture, no semantic value) -->
+  <div
+    class="pointer-events-none absolute -right-32 top-1/2 h-[600px] w-[600px] -translate-y-1/2 rounded-full opacity-[0.06]"
+    style="background: var(--brand-primary);"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="pointer-events-none absolute -bottom-16 left-1/4 h-80 w-80 rounded-full opacity-[0.04]"
+    style="background: var(--brand-accent);"
+    aria-hidden="true"
+  ></div>
+
+  <div class="mx-auto flex w-full max-w-screen-xl flex-1 flex-col items-center justify-center gap-16 px-6 py-24 lg:flex-row lg:items-center lg:gap-12">
+
+    <!-- Left: text + CTAs -->
+    <div class="max-w-xl lg:flex-1">
+      <!-- Year + report badge -->
+      <div
+        class="hero-enter mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-1.5"
+        style="border-color: var(--brand-accent); color: var(--brand-accent); animation-delay: 80ms;"
+      >
+        <span class="h-1.5 w-1.5 rounded-full" style="background: var(--brand-accent);" aria-hidden="true"></span>
+        <span class="text-xs font-semibold uppercase tracking-widest">
+          {company.reportYear} {reportLabel}
+        </span>
+      </div>
+
+      <!-- Company name -->
+      <h1
+        class="hero-enter font-heading text-5xl font-semibold leading-[1.08] tracking-tight sm:text-6xl xl:text-7xl"
+        style="color: var(--brand-primary); animation-delay: 200ms;"
+      >
+        {companyName}
+      </h1>
+
+      <!-- Tagline -->
+      <p
+        class="hero-enter mt-5 text-lg leading-relaxed text-gray-500 sm:text-xl"
+        style="animation-delay: 340ms;"
+      >
+        {tagline}
+      </p>
+
+      <!-- CTA buttons -->
+      <div
+        class="hero-enter mt-10 flex flex-wrap items-center gap-4"
+        style="animation-delay: 480ms;"
+      >
+        <a
+          href="#kpi"
+          class="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:opacity-90 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          style="background-color: var(--brand-primary); --tw-ring-color: var(--brand-primary);"
+        >
+          {exploreLabel}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+            <path d="M8 3v10M3 8l5 5 5-5"/>
+          </svg>
+        </a>
+
+        {featuredPdf && (
+          <a
+            href={featuredPdf.file}
+            download
+            class="inline-flex items-center gap-2 rounded-full border px-7 py-3.5 text-sm font-semibold transition-all duration-200 hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            style="border-color: var(--brand-primary); color: var(--brand-primary); --tw-ring-color: var(--brand-primary);"
+            aria-label={`${downloadLabel}: ${pdfTitle}`}
+          >
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7.5 1.5v8M4.5 6.5l3 3 3-3"/><path d="M1.5 11.5h12"/>
+            </svg>
+            {downloadLabel}
+          </a>
+        )}
+      </div>
+    </div>
+
+    <!-- Right: KPI grid (React islands, hydrate when visible) -->
+    <div
+      class="hero-enter w-full lg:w-auto lg:flex-1"
+      style="animation-delay: 260ms;"
+    >
+      <div class="grid grid-cols-2 gap-4">
+        {heroKpis.map((item) => (
+          <KpiCard
+            client:visible
+            labelTR={item.labelTR}
+            labelEN={item.labelEN}
+            value={item.value}
+            previousValue={item.previousValue}
+            currency={item.currency}
+            unit={item.unit}
+            icon={item.icon}
+            lang={lang}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div
+    class="hero-enter flex justify-center pb-8"
+    style="animation-delay: 700ms;"
+    aria-hidden="true"
+  >
+    <div class="flex flex-col items-center gap-2 opacity-40">
+      <span class="text-xs font-medium tracking-widest text-gray-500">{scrollLabel}</span>
+      <svg class="animate-bounce" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M8 3v8M4 7l4 4 4-4"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes hero-enter {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-enter {
+    animation: hero-enter 0.75s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)) both;
+  }
+</style>

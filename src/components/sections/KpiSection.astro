@@ -1,0 +1,54 @@
+---
+import type { Locale } from '@/utils/i18n';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import KpiCard from '@/components/ui/KpiCard';
+import kpi from '@/data/kpi.json';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+
+const eyebrow = lang === 'tr' ? 'Temel Göstergeler'  : 'Key Highlights';
+const title   = lang === 'tr' ? '2024 Yılı Sonuçları' : '2024 Performance at a Glance';
+const subtitle= lang === 'tr'
+  ? 'Finansal, operasyonel ve insan kaynakları alanlarındaki öne çıkan performans göstergelerimiz.'
+  : 'Our standout metrics across financial, operational, and people dimensions.';
+
+// Group items by category
+const grouped = kpi.categories.map(cat => ({
+  ...cat,
+  items: kpi.items.filter(i => i.category === cat.id),
+}));
+---
+
+<div>
+  <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
+
+  <div class="space-y-14">
+    {grouped.map(group => {
+      const catLabel = lang === 'tr' ? group.labelTR : group.labelEN;
+      return (
+        <div>
+          <div class="mb-6 flex items-center gap-4">
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-gray-400">{catLabel}</h3>
+            <div class="h-px flex-1 bg-gray-100"></div>
+          </div>
+          <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {group.items.map(item => (
+              <KpiCard
+                client:visible
+                labelTR={item.labelTR}
+                labelEN={item.labelEN}
+                value={item.value}
+                previousValue={item.previousValue}
+                currency={item.currency}
+                unit={item.unit}
+                icon={item.icon}
+                lang={lang}
+              />
+            ))}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</div>

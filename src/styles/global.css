@@ -1,0 +1,126 @@
+/* ─── Fonts ────────────────────────────────────────────────────────────────── */
+@import '@fontsource/fraunces/400.css';
+@import '@fontsource/fraunces/600.css';
+@import '@fontsource/fraunces/700.css';
+@import '@fontsource/dm-sans/400.css';
+@import '@fontsource/dm-sans/500.css';
+@import '@fontsource/dm-sans/600.css';
+
+/* ─── Tailwind v4 ───────────────────────────────────────────────────────────── */
+@import 'tailwindcss';
+
+/*
+ * Design token bridge:
+ * CSS custom properties are written to :root by BaseLayout.astro at build time
+ * from src/data/config.json. Tailwind utilities reference these vars below so
+ * that changing a single hex in config.json reskins the entire site and charts.
+ */
+@theme {
+  /* Brand colors — values injected by BaseLayout via :root CSS vars */
+  --color-primary:   var(--brand-primary);
+  --color-accent:    var(--brand-accent);
+  --color-surface:   var(--brand-surface);
+
+  /* Static semantic colors */
+  --color-text:      #1a1a2e;
+  --color-muted:     #6b7280;
+  --color-border:    #e5e7eb;
+  --color-white:     #ffffff;
+
+  /* Typography */
+  --font-heading: 'Fraunces', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  /* Spacing — generous scale for breathing room */
+  --spacing-section: 6rem;   /* vertical padding between sections */
+  --spacing-container: 1.5rem; /* horizontal page padding */
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-reveal: 0.6s;
+  --duration-counter: 1.2s;
+}
+
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-body);
+    color: var(--color-text);
+    background-color: var(--color-white);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    line-height: 1.15;
+  }
+
+  /* Disable all animations for users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* ─── Scroll-reveal utility ─────────────────────────────────────────────────── */
+/*
+ * Applied by SectionWrapper.astro. ScrollObserver.ts toggles .is-visible
+ * when the element enters the viewport.
+ */
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity var(--duration-reveal) var(--ease-out-expo),
+      transform var(--duration-reveal) var(--ease-out-expo);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Staggered children — apply to the parent, each child gets a delay offset */
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity var(--duration-reveal) var(--ease-out-expo),
+      transform var(--duration-reveal) var(--ease-out-expo);
+  }
+
+  .reveal-stagger.is-visible > *:nth-child(1) { transition-delay: 0ms;   opacity: 1; transform: none; }
+  .reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 80ms;  opacity: 1; transform: none; }
+  .reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 160ms; opacity: 1; transform: none; }
+  .reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 240ms; opacity: 1; transform: none; }
+  .reveal-stagger.is-visible > *:nth-child(5) { transition-delay: 320ms; opacity: 1; transform: none; }
+  .reveal-stagger.is-visible > *:nth-child(6) { transition-delay: 400ms; opacity: 1; transform: none; }
+
+  /* ProgressBar fill — width animates from 0 → --pct when .is-visible is added */
+  .progress-fill {
+    width: 0;
+    transition: width 1s var(--ease-out-expo);
+  }
+  .progress-fill.is-visible {
+    width: var(--pct);
+  }
+
+  /* Section spacing */
+  .section-padding {
+    padding-top: var(--spacing-section);
+    padding-bottom: var(--spacing-section);
+  }
+
+  .container-padding {
+    padding-left: var(--spacing-container);
+    padding-right: var(--spacing-container);
+  }
+}

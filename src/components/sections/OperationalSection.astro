@@ -1,0 +1,131 @@
+---
+import type { Locale } from '@/utils/i18n';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import BarChart from '@/components/charts/BarChart';
+import LineChart from '@/components/charts/LineChart';
+import DonutChart from '@/components/charts/DonutChart';
+import operational from '@/data/operational.json';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+
+const eyebrow = lang === 'tr' ? 'Operasyonel Performans'  : 'Operational Performance';
+const title   = lang === 'tr' ? 'Büyüyen Operasyonlarımız': 'Our Growing Operations';
+const subtitle= lang === 'tr'
+  ? '487 mağaza ve güçlü e-ticaret platformumuzla müşterilerimize her kanalda erişiyoruz.'
+  : 'With 487 stores and a powerful e-commerce platform, we reach our customers through every channel.';
+
+const { storeNetwork, ecommerceGrowth, categoryMix, highlights } = operational;
+
+const storeTitle   = lang === 'tr' ? storeNetwork.labelTR  : storeNetwork.labelEN;
+const ecomTitle    = lang === 'tr' ? ecommerceGrowth.labelTR : ecommerceGrowth.labelEN;
+const categoryTitle= lang === 'tr' ? categoryMix.labelTR   : categoryMix.labelEN;
+
+const storeLabels  = storeNetwork.regions.map(r => lang === 'tr' ? r.labelTR : r.labelEN);
+const storeCounts  = storeNetwork.regions.map(r => r.count);
+
+const ecomDatasets = [
+  {
+    label: lang === 'tr' ? 'GMV (Myr TL)' : 'GMV (Bn TRY)',
+    data: ecommerceGrowth.gmvBillionTRY,
+  },
+  {
+    label: lang === 'tr' ? 'Online Sipariş (Myn)' : 'Online Orders (M)',
+    data: ecommerceGrowth.onlineOrdersMillions,
+    fill: false,
+  },
+];
+
+const catSegments = categoryMix.items.map(item => ({
+  label: lang === 'tr' ? item.labelTR : item.labelEN,
+  value: item.value,
+}));
+---
+
+<div>
+  <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
+
+  <!-- Store network + E-commerce growth (two columns) -->
+  <div class="mb-10 grid gap-6 lg:grid-cols-2">
+    <div class="rounded-2xl bg-white p-8 ring-1 ring-gray-100">
+      <div class="mb-2 flex items-end justify-between">
+        <h3 class="font-heading text-lg font-semibold" style="color: var(--brand-primary);">{storeTitle}</h3>
+        <div class="text-right">
+          <p class="font-heading text-2xl font-semibold" style="color: var(--brand-accent);">
+            {storeNetwork.totalStores}
+          </p>
+          <p class="text-xs text-gray-400">
+            +{storeNetwork.newOpenings} {lang === 'tr' ? 'yeni açılış' : 'new openings'}
+          </p>
+        </div>
+      </div>
+      <div class="mb-6 h-px bg-gray-100"></div>
+      <BarChart
+        client:visible
+        id="store-network"
+        title={storeTitle}
+        labels={storeLabels}
+        datasets={[{ label: lang === 'tr' ? 'Mağaza Sayısı' : 'Store Count', data: storeCounts }]}
+        lang={lang}
+      />
+    </div>
+
+    <div class="rounded-2xl bg-white p-8 ring-1 ring-gray-100">
+      <h3 class="mb-6 font-heading text-lg font-semibold" style="color: var(--brand-primary);">{ecomTitle}</h3>
+      <LineChart
+        client:visible
+        id="ecommerce-growth"
+        title={ecomTitle}
+        labels={ecommerceGrowth.years.map(String)}
+        datasets={ecomDatasets}
+        lang={lang}
+      />
+    </div>
+  </div>
+
+  <!-- Category mix + highlight stats (two columns) -->
+  <div class="grid gap-6 lg:grid-cols-2">
+    <div class="rounded-2xl bg-white p-8 ring-1 ring-gray-100">
+      <h3 class="mb-6 font-heading text-lg font-semibold" style="color: var(--brand-primary);">{categoryTitle}</h3>
+      <DonutChart
+        client:visible
+        id="category-mix"
+        title={categoryTitle}
+        segments={catSegments}
+        lang={lang}
+        unit="%"
+      />
+    </div>
+
+    <!-- Highlight stat cards -->
+    <div class="flex flex-col gap-5">
+      {highlights.map(h => {
+        const label   = lang === 'tr' ? h.labelTR   : h.labelEN;
+        const caption = lang === 'tr' ? h.captionTR : h.captionEN;
+        const display = h.unit === '%'
+          ? `${h.value}%`
+          : h.currency
+          ? `${h.value.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US')} ${h.currency}`
+          : String(h.value);
+
+        return (
+          <div class="flex flex-col gap-3 rounded-2xl p-7 ring-1 ring-gray-100 bg-white">
+            <div class="flex items-end justify-between">
+              <p class="text-sm font-medium text-gray-500">{label}</p>
+              <span
+                class="rounded-full px-2.5 py-0.5 text-xs font-semibold text-white"
+                style="background-color: var(--brand-accent);"
+              >
+                +{h.yoyChange}{h.unit ?? ''}
+              </span>
+            </div>
+            <p class="font-heading text-4xl font-semibold" style="color: var(--brand-primary);">
+              {display}
+            </p>
+            <p class="text-sm leading-relaxed text-gray-400">{caption}</p>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</div>

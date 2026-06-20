@@ -1,0 +1,120 @@
+{
+  "categories": [
+    {
+      "id": "financial",
+      "labelTR": "Finansal",
+      "labelEN": "Financial"
+    },
+    {
+      "id": "operational",
+      "labelTR": "Operasyonel",
+      "labelEN": "Operational"
+    },
+    {
+      "id": "people",
+      "labelTR": "İnsan Kaynakları",
+      "labelEN": "People"
+    }
+  ],
+  "items": [
+    {
+      "id": "revenue",
+      "category": "financial",
+      "labelTR": "Net Satışlar",
+      "labelEN": "Net Revenue",
+      "value": 12450000000,
+      "previousValue": 9870000000,
+      "currency": "TRY",
+      "unit": null,
+      "icon": "trending-up"
+    },
+    {
+      "id": "ebitda",
+      "category": "financial",
+      "labelTR": "FAVÖK",
+      "labelEN": "EBITDA",
+      "value": 2340000000,
+      "previousValue": 1820000000,
+      "currency": "TRY",
+      "unit": null,
+      "icon": "bar-chart"
+    },
+    {
+      "id": "net-profit",
+      "category": "financial",
+      "labelTR": "Net Kâr",
+      "labelEN": "Net Profit",
+      "value": 1180000000,
+      "previousValue": 890000000,
+      "currency": "TRY",
+      "unit": null,
+      "icon": "circle-dollar"
+    },
+    {
+      "id": "ebitda-margin",
+      "category": "financial",
+      "labelTR": "FAVÖK Marjı",
+      "labelEN": "EBITDA Margin",
+      "value": 18.8,
+      "previousValue": 18.4,
+      "currency": null,
+      "unit": "%",
+      "icon": "percent"
+    },
+    {
+      "id": "stores",
+      "category": "operational",
+      "labelTR": "Mağaza Sayısı",
+      "labelEN": "Store Count",
+      "value": 487,
+      "previousValue": 423,
+      "currency": null,
+      "unit": null,
+      "icon": "store"
+    },
+    {
+      "id": "online-orders",
+      "category": "operational",
+      "labelTR": "Online Sipariş",
+      "labelEN": "Online Orders",
+      "value": 8200000,
+      "previousValue": 5900000,
+      "currency": null,
+      "unit": null,
+      "icon": "shopping-cart"
+    },
+    {
+      "id": "customers",
+      "category": "operational",
+      "labelTR": "Aktif Müşteri",
+      "labelEN": "Active Customers",
+      "value": 3400000,
+      "previousValue": 2750000,
+      "currency": null,
+      "unit": null,
+      "icon": "users"
+    },
+    {
+      "id": "employees",
+      "category": "people",
+      "labelTR": "Çalışan Sayısı",
+      "labelEN": "Employees",
+      "value": 12840,
+      "previousValue": 11200,
+      "currency": null,
+      "unit": null,
+      "icon": "users"
+    },
+    {
+      "id": "female-ratio",
+      "category": "people",
+      "labelTR": "Kadın Çalışan Oranı",
+      "labelEN": "Female Employee Ratio",
+      "value": 64,
+      "previousValue": 62,
+      "currency": null,
+      "unit": "%",
+      "icon": "heart"
+    }
+  ]
+}

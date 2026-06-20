@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" fill="none">
+  <!-- Replace this file with the client's actual logo SVG -->
+  <rect width="36" height="36" x="2" y="2" rx="8" fill="#1B3A6B"/>
+  <path d="M11 20h14M18 13v14" stroke="#E8A020" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="46" y="26" font-family="Georgia, serif" font-size="16" font-weight="600" fill="#1B3A6B">LOGO</text>
+</svg>
