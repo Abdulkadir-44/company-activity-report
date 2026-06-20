@@ -22,8 +22,15 @@ interface AvatarProps {
 }
 
 function AvatarWithFallback({ src, name, size, borderRadius, border, boxShadow, loading = 'lazy' }: AvatarProps) {
-  const [imgMounted, setImgMounted] = useState(true);
+  // `hydrated` starts false so the SSR HTML never contains an <img>.
+  // The image is inserted only after React takes over on the client,
+  // guaranteeing onError is always attached before the browser attempts the request.
+  // This mirrors the modal exactly — the modal only ever renders client-side.
+  const [hydrated,   setHydrated]   = useState(false);
+  const [imgFailed,  setImgFailed]  = useState(false);
   const initials = getInitials(name);
+
+  useEffect(() => { setHydrated(true); }, []);
 
   return (
     <div
@@ -39,11 +46,10 @@ function AvatarWithFallback({ src, name, size, borderRadius, border, boxShadow, 
         border,
         boxShadow,
         flexShrink: 0,
-        // Background + initials are always the base layer — zero flash on error
         backgroundColor: 'color-mix(in srgb, var(--brand-primary) 10%, white)',
       }}
     >
-      {/* Initials tile — always rendered, sits beneath the image */}
+      {/* Initials — present in SSR HTML and as the permanent fallback layer */}
       <span
         aria-label={name}
         style={{
@@ -64,8 +70,8 @@ function AvatarWithFallback({ src, name, size, borderRadius, border, boxShadow, 
         {initials}
       </span>
 
-      {/* Image — covers initials when it loads; hidden instantly on error via DOM + state */}
-      {imgMounted && (
+      {/* Image — inserted only after hydration so onError is always live */}
+      {hydrated && !imgFailed && (
         <img
           src={src}
           alt=""
@@ -81,13 +87,9 @@ function AvatarWithFallback({ src, name, size, borderRadius, border, boxShadow, 
             height: '100%',
             objectFit: 'cover',
             objectPosition: 'top',
-            color: 'transparent', // suppress alt-text on broken img in all browsers
+            color: 'transparent',
           }}
-          onError={e => {
-            // Immediate DOM hide prevents any flash of broken-image icon
-            (e.currentTarget as HTMLImageElement).style.display = 'none';
-            setImgMounted(false);
-          }}
+          onError={() => setImgFailed(true)}
         />
       )}
     </div>
