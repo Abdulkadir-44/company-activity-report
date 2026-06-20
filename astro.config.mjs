@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   // Set SITE_URL in your host's environment variables (Vercel, Netlify, VPS).
   // Falls back to example.com so builds never fail without it set.
-  site: 'https://example.com',
+  site: process.env.SITE_URL ?? 'https://example.com',
 
   output: 'static',
 
