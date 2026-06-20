@@ -1,11 +1,31 @@
 {
   "foundingYear": 2005,
-  "storyTR": "2005 yılında İstanbul'da kurulan Acme Kurumsal, bebek ve çocuk ürünleri perakendeciliğinde Türkiye'nin öncü markalarından biri haline gelmiştir. Ailelerin güvenine dayanan büyüme modelimiz, kaliteli ürün seçkimiz ve müşteri odaklı hizmet anlayışımızla yıllar içinde sağlam bir konuma ulaştık.",
-  "storyEN": "Founded in Istanbul in 2005, Acme Corporation has grown to become one of Türkiye's leading retailers in baby and children's products. Built on the trust of families, our growth model is anchored in a curated product selection and a customer-first service philosophy.",
+  "storyTR": "2005 yılında İstanbul’da temelleri atılan Acme Kurumsal, bebek ve çocuk ürünleri perakendeciliği sektöründe yenilikçi vizyonu ve sürdürülebilir büyüme stratejileriyle Türkiye’nin öncü markalarından biri haline gelmiştir. Faaliyete başladığımız ilk günden itibaren, ailelerin en değerli varlıkları için duyduğu hassasiyeti paylaşarak güven odaklı bir hizmet modeli benimsedik. Küresel standartlardaki kaliteli ve sağlıklı ürün seçkimiz, koşulsuz müşteri memnuniyeti anlayışımız ve sektöre yön veren yenilikçi adımlarımızla, yıllar içinde pazar konumumuzu köklü ve sarsılmaz bir yapıya ulaştırdık. Bugün, modern e-ticaret altyapımız ve genişleyen hizmet ağımızla, yeni nesil ebeveynlerin yol arkadaşı olmaya ve sektördeki liderliğimizi pekiştirmeye kararlılıkla devam ediyoruz.",
+  "storyEN": "Founded in Istanbul in 2005, Acme Kurumsal has established itself as one of Turkey's leading brands in the baby and children's products retailing sector through its innovative vision and sustainable growth strategies. Since our inception, we have adopted a trust-based service model, deeply sharing the sensitivity that families feel for their children. By combining a curated selection of premium, safety-compliant products with an unconditional customer satisfaction approach, we have solidified our market presence into a deeply rooted and resilient structure over the years. Today, backed by our advanced e-commerce infrastructure and expanding service network, we remain committed to guiding new-generation parents and reinforcing our leadership position within the industry.",
   "missionTR": "Her ailenin en özel anlarına eşlik eden, kaliteli ve güvenilir ürünlerle ebeveynlerin hayatını kolaylaştırmak.",
   "missionEN": "To make life easier for parents by accompanying families in their most precious moments with quality, trusted products.",
+  "missionBulletsTR": [
+    "Titizlikle seçilmiş, güvenli ürün portföyü",
+    "Koşulsuz müşteri memnuniyeti anlayışı",
+    "Ailelerin yanında, her anında"
+  ],
+  "missionBulletsEN": [
+    "Carefully curated, safety-first product portfolio",
+    "Unconditional customer satisfaction commitment",
+    "By families' side, every step of the way"
+  ],
   "visionTR": "Türkiye'nin en sevilen aile perakende markası olmak ve her yıl yüz binlerce yeni aileye ulaşmak.",
   "visionEN": "To become Türkiye's most loved family retail brand, reaching hundreds of thousands of new families every year.",
+  "visionBulletsTR": [
+    "Türkiye'nin en güvenilir aile perakende markası",
+    "Her yıl yüz binlerce yeni aileye ulaşmak",
+    "Sürdürülebilir büyüme ile sektörde liderlik"
+  ],
+  "visionBulletsEN": [
+    "Türkiye's most trusted family retail brand",
+    "Reaching hundreds of thousands of new families annually",
+    "Sustaining industry leadership through responsible growth"
+  ],
   "values": [
     {
       "icon": "heart",
