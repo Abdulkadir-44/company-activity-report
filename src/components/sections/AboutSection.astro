@@ -34,18 +34,22 @@ const photoPath    = 'public/assets/about-photo.jpg';
 ---
 
 <div>
-  <!-- Two-column intro: text left, image card right -->
+  <!-- Display heading (centered, mirrors Business Areas heading architecture) -->
+  <div class="mb-16 text-center">
+    <p class="mb-4 text-xs font-semibold uppercase tracking-[0.22em]" style="color: var(--brand-accent);">
+      {eyebrowLabel}
+    </p>
+    <h2 class="about-heading font-heading text-5xl font-semibold leading-none sm:text-6xl lg:text-[5.5rem]" style="color: var(--brand-primary);">
+      {headingLabel}
+    </h2>
+  </div>
+
+  <!-- Two-column intro: story text left, image card right -->
   <div class="mb-16 grid items-center gap-12 lg:grid-cols-[1fr_400px]">
 
-    <!-- Left: heading block -->
+    <!-- Left: story text -->
     <div>
-      <p class="mb-4 text-xs font-semibold uppercase tracking-[0.22em]" style="color: var(--brand-accent);">
-        {eyebrowLabel}
-      </p>
-      <h2 class="about-heading font-heading text-5xl font-semibold leading-none sm:text-6xl lg:text-[5.5rem]" style="color: var(--brand-primary);">
-        {headingLabel}
-      </h2>
-      <p class="mt-6 max-w-xl text-base leading-relaxed text-gray-500">{story}</p>
+      <p class="max-w-xl text-base leading-relaxed text-gray-500">{story}</p>
     </div>
 
     <!-- Right: premium image card with offset accent border -->
