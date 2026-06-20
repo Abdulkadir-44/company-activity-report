@@ -6,12 +6,17 @@
       "nameEN": "Ahmet Yılmaz",
       "titleTR": "Yönetim Kurulu Başkanı",
       "titleEN": "Chairman of the Board",
+      "badgesTR": ["Yönetim Kurulu Başkanı", "Kurucu Ortak"],
+      "badgesEN": ["Chairman of the Board", "Co-Founder"],
       "photo": "/assets/photos/board-chair.jpg",
       "appointmentYear": 2015,
       "independent": false,
       "committees": [],
-      "bioTR": "Ahmet Yılmaz, 30 yılı aşkın kurumsal yönetim ve stratejik liderlik deneyimiyle 2015 yılından bu yana Yönetim Kurulu'na başkanlık etmektedir.",
-      "bioEN": "Ahmet Yılmaz has served as Chairman since 2015, bringing over 30 years of corporate governance and strategic leadership experience."
+      "tenureLabelTR": "2015'ten bu yana Yönetim Kurulu Başkanı",
+      "tenureLabelEN": "Board Chairman since 2015",
+      "linkedin": "https://linkedin.com",
+      "bioTR": "Ahmet Yılmaz, 30 yılı aşkın kurumsal yönetim ve stratejik liderlik deneyimiyle 2015 yılından bu yana e-bebek Yönetim Kurulu'na başkanlık etmektedir. Kariyeri boyunca Türkiye'nin önde gelen perakende ve tüketici markaları bünyesinde üst düzey yöneticilik görevleri üstlenen Yılmaz, kurumsal dönüşüm, yatırımcı ilişkileri ve sürdürülebilir büyüme alanlarında derin bir birikim inşa etmiştir.\n\nBoğaziçi Üniversitesi İşletme bölümünden mezun olan ve London Business School'da yönetici eğitimini tamamlayan Yılmaz; şeffaf yönetim, paydaş odaklı karar alma ve uzun vadeli değer yaratma ilkelerini şirket kültürünün merkezine taşımaktadır.",
+      "bioEN": "Ahmet Yılmaz has chaired the e-bebek Board of Directors since 2015, bringing over 30 years of corporate governance and strategic leadership experience. Throughout his career he has held senior executive roles at Turkey's leading retail and consumer brands, building deep expertise in corporate transformation, investor relations, and sustainable growth.\n\nA graduate of Boğaziçi University's Business programme and executive education at London Business School, Yılmaz places transparent governance, stakeholder-centred decision-making, and long-term value creation at the heart of the company's culture."
     },
     {
       "id": "ceo",
@@ -19,12 +24,18 @@
       "nameEN": "Ayşe Kaya",
       "titleTR": "Genel Müdür & Yönetim Kurulu Üyesi",
       "titleEN": "CEO & Board Member",
+      "badgesTR": ["Genel Müdür", "Yönetim Kurulu Üyesi"],
+      "badgesEN": ["Chief Executive Officer", "Board Member"],
       "photo": "/assets/photos/board-ceo.jpg",
       "appointmentYear": 2019,
       "independent": false,
       "committees": [],
-      "bioTR": "Ayşe Kaya, perakende ve dijital dönüşüm alanlarında 20 yıllık deneyimiyle 2019'dan bu yana şirketi yönetmektedir.",
-      "bioEN": "Ayşe Kaya has led the company since 2019, with 20 years of experience in retail and digital transformation."
+      "tenureLabelTR": "2019'dan bu yana Genel Müdür",
+      "tenureLabelEN": "CEO since 2019",
+      "linkedin": "https://linkedin.com",
+      "twitter": "https://twitter.com",
+      "bioTR": "Ayşe Kaya, perakende ve dijital dönüşüm alanlarında 20 yılı aşkın deneyimiyle 2019 yılından bu yana e-bebek'i yönetmektedir. Göreve başladığı günden itibaren şirketin omnichannel stratejisini derinleştirmiş, dijital kanallar üzerindeki satış payını iki katına çıkarmış ve müşteri memnuniyeti endekslerini sektörün en yüksek seviyelerine taşımıştır.\n\nHacettepe Üniversitesi Endüstri Mühendisliği lisans mezunu olan ve İstanbul Bilgi Üniversitesi'nde MBA eğitimini tamamlayan Kaya; teknoloji odaklı perakende modelini e-bebek bünyesinde hayata geçirirken sürdürülebilirliği şirketin büyüme ekseninin ayrılmaz bir parçası olarak konumlandırmaktadır.",
+      "bioEN": "Ayşe Kaya has led e-bebek since 2019, bringing more than 20 years of experience in retail and digital transformation. Since taking the helm she has deepened the company's omnichannel strategy, doubled the share of digital-channel sales, and elevated customer satisfaction scores to the highest levels in the sector.\n\nA graduate of Hacettepe University's Industrial Engineering programme and holder of an MBA from İstanbul Bilgi University, Kaya has embedded a technology-first retail model at e-bebek while positioning sustainability as an inseparable pillar of the company's growth agenda."
     },
     {
       "id": "ind-1",
@@ -32,12 +43,17 @@
       "nameEN": "Mehmet Demir",
       "titleTR": "Bağımsız Yönetim Kurulu Üyesi",
       "titleEN": "Independent Board Member",
+      "badgesTR": ["Bağımsız Üye", "Denetim Komitesi Başkanı"],
+      "badgesEN": ["Independent Member", "Audit Committee Chair"],
       "photo": "/assets/photos/board-ind1.jpg",
       "appointmentYear": 2018,
       "independent": true,
       "committees": ["audit", "risk"],
-      "bioTR": "Mehmet Demir, finans ve denetim alanlarında uzmanlaşmış bağımsız bir yönetim kurulu üyesidir.",
-      "bioEN": "Mehmet Demir is an independent board member specialising in finance and audit."
+      "tenureLabelTR": "2018'den bu yana Yönetim Kurulu'nda",
+      "tenureLabelEN": "Board member since 2018",
+      "linkedin": "https://linkedin.com",
+      "bioTR": "Mehmet Demir, finans, denetim ve risk yönetimi alanlarında 25 yılı aşkın kurumsal deneyimiyle 2018 yılından bu yana e-bebek Yönetim Kurulu'nda bağımsız üye olarak görev yapmaktadır. Kariyeri süresince büyük ölçekli halka açık şirketlerde CFO ve Denetim Komitesi başkanlığı görevlerini üstlenen Demir, IFRS raporlama, iç kontrol sistemleri ve finansal risk çerçevelerinin kurumsal düzeyde hayata geçirilmesinde kapsamlı deneyime sahiptir.\n\nMarmara Üniversitesi İktisat mezunu olan ve Sertifikalı Kamu Muhasebecisi (CPA) unvanını taşıyan Demir; kurumda şeffaf mali yönetim ve sağlıklı risk kültürünün tesis edilmesini misyonunun odağına almaktadır.",
+      "bioEN": "Mehmet Demir has served as an independent board member since 2018, bringing over 25 years of corporate experience in finance, audit, and risk management. During his career he held CFO and Audit Committee Chair roles at large-cap publicly listed companies, accumulating deep expertise in IFRS reporting, internal control systems, and enterprise-level financial risk frameworks.\n\nA graduate of Marmara University's Economics programme and a Certified Public Accountant (CPA), Demir is focused on fostering transparent financial management and a sound risk culture within the organisation."
     },
     {
       "id": "ind-2",
@@ -45,18 +61,23 @@
       "nameEN": "Fatma Şahin",
       "titleTR": "Bağımsız Yönetim Kurulu Üyesi",
       "titleEN": "Independent Board Member",
+      "badgesTR": ["Bağımsız Üye", "Sürdürülebilirlik Komitesi"],
+      "badgesEN": ["Independent Member", "Sustainability Committee"],
       "photo": "/assets/photos/board-ind2.jpg",
       "appointmentYear": 2021,
       "independent": true,
       "committees": ["corporate-governance", "sustainability"],
-      "bioTR": "Fatma Şahin, sürdürülebilirlik ve kurumsal yönetim alanlarında uluslararası deneyime sahip bağımsız bir üyedir.",
-      "bioEN": "Fatma Şahin is an independent member with international expertise in sustainability and corporate governance."
+      "tenureLabelTR": "2021'den bu yana Yönetim Kurulu'nda",
+      "tenureLabelEN": "Board member since 2021",
+      "linkedin": "https://linkedin.com",
+      "bioTR": "Fatma Şahin, sürdürülebilirlik ve kurumsal yönetim alanlarında uluslararası düzeyde tanınan bir uzman olarak 2021 yılından bu yana e-bebek Yönetim Kurulu'nda bağımsız üye sıfatıyla yer almaktadır. Kariyeri boyunca BM Küresel İlkeler Sözleşmesi çalışma gruplarında aktif rol üstlenen Şahin, ESG entegrasyonu, iklim riski açıklamaları ve çeşitlilik-kapsayıcılık stratejilerinin kurumsal yönetim yapılarına yansıtılması konularında uluslararası alanda aranan bir danışmandır.\n\nODTÜ Çevre Mühendisliği lisans mezunu olan ve Cambridge Üniversitesi'nde Sürdürülebilir Liderlik alanında yüksek lisansını tamamlayan Şahin; e-bebek'in uzun vadeli çevresel ve sosyal performans hedeflerinin belirlenmesinde ve uluslararası sürdürülebilirlik standartlarıyla uyumunda kilit bir rol oynamaktadır.",
+      "bioEN": "Fatma Şahin has been an internationally recognised expert in sustainability and corporate governance since joining the e-bebek Board as an independent member in 2021. Throughout her career she has played an active role in UN Global Compact working groups and is a sought-after international adviser on ESG integration, climate-risk disclosure, and embedding diversity and inclusion strategies within corporate governance structures.\n\nA graduate of METU's Environmental Engineering programme and holder of an MSc in Sustainable Leadership from the University of Cambridge, Şahin plays a pivotal role in shaping e-bebek's long-term environmental and social performance targets and aligning them with international sustainability standards."
     }
   ],
   "committees": [
-    { "id": "audit",                "labelTR": "Denetim Komitesi",               "labelEN": "Audit Committee" },
-    { "id": "risk",                 "labelTR": "Risk Komitesi",                  "labelEN": "Risk Committee" },
-    { "id": "corporate-governance", "labelTR": "Kurumsal Yönetim Komitesi",      "labelEN": "Corporate Governance Committee" },
-    { "id": "sustainability",       "labelTR": "Sürdürülebilirlik Komitesi",     "labelEN": "Sustainability Committee" }
+    { "id": "audit",                "labelTR": "Denetim Komitesi",           "labelEN": "Audit Committee"               },
+    { "id": "risk",                 "labelTR": "Risk Komitesi",              "labelEN": "Risk Committee"                },
+    { "id": "corporate-governance", "labelTR": "Kurumsal Yönetim Komitesi", "labelEN": "Corporate Governance Committee" },
+    { "id": "sustainability",       "labelTR": "Sürdürülebilirlik Komitesi","labelEN": "Sustainability Committee"       }
   ]
 }

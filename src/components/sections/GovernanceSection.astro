@@ -1,45 +1,62 @@
 ---
 import type { Locale } from '@/utils/i18n';
-import SectionHeading from '@/components/ui/SectionHeading.astro';
-import GovernanceCard from '@/components/content/GovernanceCard.astro';
+import GovernanceBoard from '@/components/ui/GovernanceBoard';
 import governance from '@/data/governance.json';
 
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
 
-const eyebrow = lang === 'tr' ? 'Kurumsal Yönetim'           : 'Corporate Governance';
-const title   = lang === 'tr' ? 'Yönetim Kurulumuz'          : 'Our Board of Directors';
-const subtitle= lang === 'tr'
+const eyebrow  = lang === 'tr' ? 'Kurumsal Yönetim'    : 'Corporate Governance';
+const title    = lang === 'tr' ? 'Yönetim Kurulumuz'   : 'Our Board of Directors';
+const subtitle = lang === 'tr'
   ? 'Şeffaflık, hesap verebilirlik ve etik iş anlayışı temel yönetim ilkelerimizdir.'
   : 'Transparency, accountability, and ethical business conduct are the cornerstones of our governance.';
 
-// Build committee label lookup
+// Build committee label lookup (still used by the members mapping above)
 const committeeLabels = Object.fromEntries(
   governance.committees.map(c => [c.id, lang === 'tr' ? c.labelTR : c.labelEN])
 );
+
+// Pre-resolve all locale-specific fields so the React island receives plain strings
+const members = governance.board.map(m => ({
+  id:              m.id,
+  name:            lang === 'tr' ? m.nameTR          : m.nameEN,
+  title:           lang === 'tr' ? m.titleTR         : m.titleEN,
+  badges:          lang === 'tr' ? m.badgesTR        : m.badgesEN,
+  photo:           m.photo,
+  appointmentYear: m.appointmentYear,
+  independent:     m.independent,
+  committees:      m.committees,
+  committeeLabels,
+  bio:         lang === 'tr' ? m.bioTR        : m.bioEN,
+  tenureLabel: lang === 'tr' ? m.tenureLabelTR : m.tenureLabelEN,
+  linkedin:        m.linkedin,
+  twitter:         m.twitter,
+}));
 ---
 
 <div>
-  <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
 
-  <!-- Board grid -->
-  <div class="mb-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-    {governance.board.map(member => (
-      <GovernanceCard
-        name={lang === 'tr' ? member.nameTR : member.nameEN}
-        title={lang === 'tr' ? member.titleTR : member.titleEN}
-        photo={member.photo}
-        appointmentYear={member.appointmentYear}
-        independent={member.independent}
-        committees={member.committees}
-        bio={lang === 'tr' ? member.bioTR : member.bioEN}
-        committeeLabels={committeeLabels}
-        lang={lang}
-      />
-    ))}
+  <!-- Section heading — mirrors About / Messages / KPI display heading architecture -->
+  <div class="mb-16 text-center">
+    <p class="mb-4 text-xs font-semibold uppercase tracking-[0.22em]" style="color: var(--brand-accent);">
+      {eyebrow}
+    </p>
+    <h2
+      class="gov-heading font-heading text-4xl font-semibold leading-none sm:text-5xl lg:text-6xl"
+      style="color: var(--brand-primary);"
+    >
+      {title}
+    </h2>
+    <p class="mx-auto mt-5 max-w-xl text-base leading-relaxed text-gray-500">{subtitle}</p>
   </div>
 
-  <!-- Committee structure -->
+  <!-- Board grid + modal (single React island) -->
+  <div>
+    <GovernanceBoard client:visible members={members} lang={lang} />
+  </div>
+
+  <!-- COMMITTEE STRUCTURE — commented out; remove the comment markers below to re-enable
   <div class="rounded-2xl bg-white p-8 ring-1 ring-gray-100">
     <h3 class="mb-6 font-heading text-lg font-semibold" style="color: var(--brand-primary);">
       {lang === 'tr' ? 'Komite Yapısı' : 'Committee Structure'}
@@ -65,4 +82,21 @@ const committeeLabels = Object.fromEntries(
       })}
     </div>
   </div>
+  -->
+
 </div>
+
+<style>
+  /*
+   * Letter-spacing compression/expand — same mechanic as all other display headings.
+   */
+  .gov-heading {
+    letter-spacing: -0.07em;
+    transition: letter-spacing 1.1s cubic-bezier(0.2, 0.9, 0.3, 1) 0.15s;
+  }
+
+  :global(.reveal.is-visible) .gov-heading,
+  :global(.reveal-stagger.is-visible) .gov-heading {
+    letter-spacing: -0.025em;
+  }
+</style>
