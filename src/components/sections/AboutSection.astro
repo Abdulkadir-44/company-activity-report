@@ -39,13 +39,13 @@ const photoPath    = 'public/assets/about-photo.jpg';
 
     <!-- Left: heading block -->
     <div>
-      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em]" style="color: var(--brand-accent);">
+      <p class="mb-4 text-xs font-semibold uppercase tracking-[0.22em]" style="color: var(--brand-accent);">
         {eyebrowLabel}
       </p>
-      <h2 class="font-heading text-3xl font-semibold leading-tight sm:text-4xl" style="color: var(--brand-primary);">
+      <h2 class="about-heading font-heading text-5xl font-semibold leading-none sm:text-6xl lg:text-[5.5rem]" style="color: var(--brand-primary);">
         {headingLabel}
       </h2>
-      <p class="mt-4 max-w-xl text-base leading-relaxed text-gray-500">{story}</p>
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-gray-500">{story}</p>
     </div>
 
     <!-- Right: premium image card with offset accent border -->
@@ -446,6 +446,17 @@ const photoPath    = 'public/assets/about-photo.jpg';
   }
   .bento-card:hover .bento-img-inner {
     transform: scale(1.06);
+  }
+
+  /* ── About Section: display heading (mirrors areas-heading) ───────────────── */
+  .about-heading {
+    letter-spacing: -0.07em;
+    transition: letter-spacing 1.1s cubic-bezier(0.2, 0.9, 0.3, 1) 0.15s;
+  }
+
+  :global(.reveal.is-visible) .about-heading,
+  :global(.reveal-stagger.is-visible) .about-heading {
+    letter-spacing: -0.025em;
   }
 
   /* ── Business Areas: display heading ──────────────────────────────────────── */
